@@ -13,6 +13,8 @@
 		public static const BUILDING_TICK:Number = 500; // miliseconds
 		public static const DIAGONAL:Number = Math.sqrt(2);
 		
+		public static const CROP_AMOUNT:int = 10;
+		
 		public function GameData()
 		{
 			

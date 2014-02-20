@@ -45,10 +45,15 @@
 			itemID = id;
 			spriteArray = [];
 			
-			update();
+			drawItem();
 		}
 		
 		public function update()
+		{
+			
+		}
+		
+		public function drawItem()
 		{
 			for(ind = 0; ind<spriteArray.length; ind++)
 			{

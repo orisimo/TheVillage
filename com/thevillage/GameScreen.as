@@ -74,7 +74,8 @@
 			// make some starter items (temp)
 			for(var num:int=0; num<8; num++)
 			{
-				var tempType:int = Math.random() > 0.5 ? Math.ceil(Math.random()*16) : 101;
+				//var tempType:int = Math.random() > 0.5 ? Math.ceil(Math.random()*16) : 101;
+				var tempType:int = 101;
 				var tempItem:Item = createItem(tempType, [Math.floor(Math.random()*GameData.GRID_WIDTH), Math.floor(Math.random()*GameData.GRID_HEIGHT)]);
 				//trace("itemType: "+tempItem.itemType);
 				if(tileMap.verifyPosition({row:tempItem.row, col:tempItem.col}, tempItem.itemGrid))
@@ -121,13 +122,16 @@
 		{
 			var myItem:Item;
 			
-			if(itemType > 100) // Minion
+			switch (itemType)
 			{
-				myItem = new Minion(itemType, TileTypes.getItemGridByType(itemType), tileMap.getNewID(), tileMap, this);
-			}
-			else
-			{
-				myItem = new Building(itemType, TileTypes.getItemGridByType(itemType), tileMap.getNewID());
+				case TileTypes.VILLAGER: // villager
+					myItem = new Minion(itemType, TileTypes.getItemGridByType(itemType), tileMap.getNewID(), tileMap, this);
+					break;
+				case TileTypes.CROP_FIELD:
+					myItem = new CropField(itemType, TileTypes.getItemGridByType(itemType), tileMap.getNewID());
+					break;
+				default:
+					break;
 			}
 			
 			var gridData:Object = processGrid(myItem);
@@ -157,7 +161,7 @@
 				dragTarget.y = dragTarget.row * GameData.TILE_SIZE;
 				
 				dragTarget.positionAvailable = tileMap.verifyPosition({row:dragTarget.row, col:dragTarget.col}, dragTarget.itemGrid);
-				dragTarget.update();
+				dragTarget.drawItem();
 			}
 		}
 		
@@ -229,19 +233,24 @@
 		{
 			if(item.positionAvailable)
 			{
-				if(item.itemType == 101)
+				switch (item.itemType)
 				{
-					setRandomDestination(Minion(item));
-					Minion(item).update();
-				}
-				else // temp code - should be a switch func here
-				{
-					tileMap.setNode(item, false); // set node(s) to non-traversable
-					Building(item).allMaterialsComing = false;
-					Building(item).allMaterialsReady = false;
-					Building(item).underConstruction = true;
-					
-					Building(item).workers.push(getIdleMinion());
+					case TileTypes.VILLAGER: // villager
+						setRandomDestination(Minion(item));
+						Minion(item).drawItem();
+						break;
+					case TileTypes.CROP_FIELD:
+						tileMap.setNode(item, false); // set node(s) to non-traversable
+						Building(item).allMaterialsComing = false;
+						Building(item).allMaterialsReady = false;
+						Building(item).underConstruction = true;
+						
+						Building(item).workers.push(getIdleMinion());
+						
+						Building(item).initBuilding();
+						break;
+					default:
+						break;
 				}
 				
 				dispatchEvent(new GameEvent(GameEvent.PLACE_ITEM_EVENT, item.itemType, true));

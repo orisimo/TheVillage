@@ -160,6 +160,7 @@
 		
 		public function animateMinion(travelTime:Number, targetX:Number, targetY: Number, onCompleteFunc:Function = null)
 		{
+			trace("animate minion");
 			Tweener.addTween(this, {time: travelTime, x: path[1].col*GameData.TILE_SIZE, y: path[1].row*GameData.TILE_SIZE, transition: "linear", onComplete:update});
 		}
 	}
