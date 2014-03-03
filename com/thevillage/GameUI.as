@@ -6,6 +6,8 @@
 	import flash.events.MouseEvent;
 	
 	import com.thevillage.GameEvent;
+	import flash.events.KeyboardEvent;
+	import flash.display.Stage;
 
 	public class GameUI extends MovieClip
 	{

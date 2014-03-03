@@ -55,32 +55,18 @@
 		
 		public function drawItem()
 		{
-			for(ind = 0; ind<spriteArray.length; ind++)
-			{
-				removeChild(spriteArray[ind]);
-			}
-			spriteArray = [];
-			// delete any previos art and clears the array;
-			
 			if(!isPlaced)
 			{
 				
 			}
 			
-			for(ind = 0; ind<itemGrid.length; ind++)
+			/*for(ind = 0; ind<itemGrid.length; ind++)
 			{
 				var newSprite:TileSprite;
 				
 				if(itemGrid[ind] == 1)
 				{
-					if(positionAvailable)
-					{
-						newSprite = new TileSprite(TileTypes.colorByType(itemType));
-					}
-					else
-					{
-						newSprite = new TileSprite(0xFF0000);
-					}
+					newSprite = new TileSprite(itemType, positionAvailable);
 					
 					newSprite.x = ind % Math.sqrt(itemGrid.length) * GameData.TILE_SIZE;
 					newSprite.y = Math.floor(ind / Math.sqrt(itemGrid.length)) * GameData.TILE_SIZE;
@@ -89,7 +75,7 @@
 					
 					addChild(newSprite);
 				}
-			}
+			}*/
 		}
 	}
 }

@@ -2,9 +2,9 @@
 	
 	public class GameData {
 		
-		public static const TILE_SIZE:int = 25;
-		public static const GRID_WIDTH:int = 30;
-		public static const GRID_HEIGHT:int = 20;
+		public static const TILE_SIZE:int = 28;
+		public static const GRID_WIDTH:int = 25;
+		public static const GRID_HEIGHT:int = 18;
 		
 		public static const GRID_COLOR:Number = 0x000000;
 		public static const GRID_ALPHA:Number = 0.5;

@@ -36,6 +36,8 @@
 		
 		public var minionCapacity:int = 10;
 		
+		var keyboardController:KeyboardController;
+		
 		public function GameScreen() 
 		{
 			if(stage)
@@ -72,6 +74,8 @@
 			addChild(gridGraphics);
 			
 			initGameTimer();
+			
+			keyboardController = new KeyboardController(this);
 			
 			// make some starter items (temp)
 			for(var num:int=0; num<1; num++)
@@ -164,7 +168,7 @@
 				dragTarget.y = dragTarget.row * GameData.TILE_SIZE;
 				
 				dragTarget.positionAvailable = tileMap.verifyPosition({row:dragTarget.row, col:dragTarget.col}, dragTarget.itemGrid);
-				dragTarget.drawItem();
+				//dragTarget.drawItem();
 			}
 		}
 		
@@ -328,6 +332,17 @@
 			}
 		}
 		
+		public function zoomMap(zoomIn:Boolean)
+		{
+			scaleX = scaleY = scaleX + 0.05 * (zoomIn?1:-1);
+		}
+		
+		public function moveMap(move_x:Number, move_y:Number)
+		{
+			x += move_x;
+			y += move_y;
+		}
+		
 		private function drawObstacles()
 		{
 			for(var col:int = 0; col< GameData.GRID_WIDTH; col++)
@@ -336,7 +351,7 @@
 				{
 					if(tileMap.map[col+row*GameData.GRID_WIDTH] == 1)
 					{
-						var obstacle:TileSprite = new TileSprite(0x333333);
+						var obstacle:TileSprite = new TileSprite(1, true);
 						obstacle.x = col*GameData.TILE_SIZE;
 						obstacle.y = row*GameData.TILE_SIZE;
 						

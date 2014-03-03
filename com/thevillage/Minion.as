@@ -190,5 +190,14 @@
 			}
 			Tweener.addTween(this, {time: travelTime, x: targetX, y: targetY, transition: "linear", onComplete:onCompleteFunc});
 		}
+		
+		override public function drawItem()
+		{
+			var newSprite:TileSprite;
+			
+			newSprite = new TileSprite(itemType, positionAvailable);
+			
+			addChild(newSprite);
+		}
 	}
 }

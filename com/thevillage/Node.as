@@ -31,7 +31,10 @@
 			this.row = r;
 			this.col = c;
 			
-			this.highlight();
+			var newSprite:TileSprite  = new TileSprite(0, true);
+			addChild(newSprite);
+			
+			//this.highlight();
 		}
 		
 		public function highlight(color:uint = 0x0080C0):void

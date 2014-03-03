@@ -46,9 +46,9 @@
 					node.x = col*GameData.TILE_SIZE;
 					node.y = row*GameData.TILE_SIZE;
 					
-					var numTxt:TextField = new TextField();
-					numTxt.text = String(map.length);
-					node.addChild(numTxt);
+					//var numTxt:TextField = new TextField();
+					//numTxt.text = String(map.length);
+					//node.addChild(numTxt);
 					
 					map.push( node );
 					

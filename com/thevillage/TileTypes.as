@@ -12,6 +12,9 @@
 		public static const RESOURCE_STONE:int = 6;
 		public static const RESOURCE_METAL:int = 7;
 		
+		// Map Tiles
+		public static const MAP_TILE_BASIC:int = 0;
+		
 		// Buildings 1-30
 		
 		public static const MANOR_HOUSE:int = 1;

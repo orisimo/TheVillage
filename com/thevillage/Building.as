@@ -42,13 +42,12 @@
 		{
 			super(type, grid, id);
 			
-			drawItem();
-			
 			buildingTimer = new Timer(GameData.BUILDING_TICK);
 			buildingTimer.addEventListener(TimerEvent.TIMER, timerUpdate);
 			gameScreen = _gameScreen;
 			
 			workers = [];
+			buildingContent = [];
 		}
 		
 		public function timerUpdate(e:TimerEvent)
@@ -60,7 +59,6 @@
 		{
 			//trace("init building");
 			buildingTimer.start();
-			buildingContent = [];
 			
 			addEventListener(MouseEvent.CLICK, onBuildingClick)
 		}

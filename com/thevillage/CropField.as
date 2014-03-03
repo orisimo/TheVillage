@@ -11,6 +11,7 @@
 	
 	public class CropField extends Building
 	{
+		var currCrop:Crop;
 		
 		public function CropField(type:int, grid:Array, id:int, _gameScreen:GameScreen) 
 		{
@@ -22,7 +23,34 @@
 			super.initBuilding();
 			
 			// init crops
-			for(var ind:int = 0; ind < itemGrid.length ; ind++)
+			initCrop(1, 0);
+			
+			// init resource
+			resource = 0;
+			
+			// set rally point
+			rally_col = col + 0;
+			rally_row = row + 1;
+		}
+		
+		override public function drawItem()
+		{
+			super.drawItem();
+			
+			// rally point art
+			var newSprite:TileSprite = new TileSprite(itemType, positionAvailable, true);
+			addChild(newSprite);
+			
+			// first crop
+			var crop_col:int = col+1;
+			var crop_row:int = row;
+			
+			newSprite = new TileSprite(itemType, positionAvailable);
+			newSprite.x = GameData.TILE_SIZE;
+			
+			addChild(newSprite);
+			
+			/*for(var ind:int = 0; ind < itemGrid.length ; ind++)
 			{
 				if(itemGrid[ind])
 				{
@@ -32,14 +60,16 @@
 					crop = new Crop(this, crop_col, crop_row);
 					buildingContent.push(crop);
 				}
-			}
+			}*/
+		}
+		
+		private function initCrop(add_col:int, add_row:int)
+		{
+			var crop_col:int = col + add_col;
+			var crop_row = row + add_row;
 			
-			// init resource
-			resource = 0;
-			
-			// set rally point
-			rally_col = col + 0;
-			rally_row = row + 1;
+			crop = new Crop(this, crop_col, crop_row);
+			buildingContent.push(crop);
 		}
 		
 		override public function update()
