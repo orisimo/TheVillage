@@ -12,12 +12,13 @@
 		public static const RESOURCE_STONE:int = 6;
 		public static const RESOURCE_METAL:int = 7;
 		
-		// Buildings 1-30
+		
+		// Impassable 1-30
 		
 		public static const MANOR_HOUSE:int = 1;
 		public static const CROP_FIELD:int = 2;
-		public static const STOREHOUSE:int = 3; 
-		public static const LUMBERMILL:int = 4; 
+		public static const STOREHOUSE:int = 3;
+		public static const LUMBERMILL:int = 4;
 		public static const QUARRY:int = 5;
 		public static const MINE:int = 6;
 		public static const HUNTER:int = 7;
@@ -31,20 +32,26 @@
 		public static const SPIKED_HOLE:int = 15; 
 		public static const GATEHOUSE:int = 16; 		
 		
-		// Building Strings
+		
+		
+		// Passable 31-60
+		
+		
+		
+		// Strings
 		
 		public static const MANOR_HOUSE_STR:String = "Manor House";
 		public static const CROP_FIELD_STR:String = "Crop Field";
-		public static const STOREHOUSE_STR:String = "Storehouse";
-		public static const LUMBERMILL_STR:String = "Lumbermill";
-		public static const QUARRY_STR:String = "Quarry";
-		public static const MINE_STR:String = "Mine";
-		public static const HUNTER_STR:String = "Hunter"; 
+		public static const STOREHOUSE_STR:String = "Storehouse"; 
+		public static const LUMBERMILL_STR:String = "Lumbermill"; 
+		public static const QUARRY_STR:String = "Quarry"; 
+		public static const MINE_STR:String = "Mine"; 
+		public static const HUNTER_STR:String = "Humner"; 
 		public static const FISHERMAN_STR:String = "Fisherman"; 
 		public static const HERDSMAN_STR:String = "Herdsman";
-		public static const INN_STR:String = "Inn";
+		public static const INN_STR:String = "Inn"; 
 		public static const BONFIRE_STR:String = "Bonfire"; 
-		public static const WALL_STR:String = "Wall";
+		public static const WALL_STR:String = "Wall"; 
 		public static const ARCHER_TURRET_STR:String = "Archer Turret"; 
 		public static const GUARD_HOUSE_STR:String = "Guard House"; 
 		public static const SPIKED_HOLE_STR:String = "Spiked Hole"; 
@@ -144,13 +151,13 @@
 		
 		public static function getWorkTimeByType(itemType:int):Number
 		{
-			// inputs building type and outputs work time in miliseconds
+			// inputs building type and outputs building starter grid
 			switch(itemType)
 			{
 				// Buildings
 				
 				case CROP_FIELD:
-					return 2000;
+					return 10;
 					break;
 				default:
 					return 0;

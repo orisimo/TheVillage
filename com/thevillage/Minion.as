@@ -1,18 +1,15 @@
 ﻿package com.thevillage 
 {
 	import com.thevillage.Building;
-	import com.thevillage.TileSprite;
 	import com.thevillage.GameEvent;
 	
 	import com.untoldentertainment.pathfinding.Pathfinder;
 	import caurina.transitions.*;
+	import flash.events.MouseEvent;
 	
 	
 	public class Minion extends Item
 	{
-		public var isMoving:Boolean;
-		public var isIdle:Boolean;
-		
 		private var tileMap:TileMap;
 		
 		public var targetPosition:Object;
@@ -20,7 +17,9 @@
 		public var buildingOrder:Building;
 		
 		public var handsContent:Object;
-		public var readyToWork:Boolean;
+		public var isWorking:Boolean;
+		public var isMoving:Boolean;
+		public var isAssigned:Boolean;
 		
 		private var path:Array;
 		
@@ -29,12 +28,30 @@
 		public function Minion(type:int, grid:Array, id:int, _tileMap:TileMap, _gameScreen:GameScreen) 
 		{
 			isMoving = false;
-			isIdle = true;
+			isWorking = false;
+			isAssigned = false;
+			
 			tileMap = _tileMap;
 			gameScreen = _gameScreen;
 			super(type, grid, id);
 			
 			gameScreen.addEventListener(GameEvent.PLACE_ITEM_EVENT, updatePath);
+		}
+		
+		public function isIdle():Boolean
+		{
+			return(Boolean(!isWorking && !isMoving));
+		}
+		
+		public function initMinion()
+		{
+			//trace("init building");
+			addEventListener(MouseEvent.CLICK, onMinionClick);
+		}
+		
+		private function onMinionClick(e:MouseEvent)
+		{
+			gameScreen.minionClick(this);
 		}
 		
 		private function updatePath(e:GameEvent)
@@ -49,6 +66,9 @@
 		{
 			super.update();
 			
+			//trace("minion update");
+			//trace("targetPosition: "+targetPosition);
+			
 			if(targetPosition)
 			{
 				// build a path
@@ -56,15 +76,16 @@
 				{
 					path = tileMap.getPathTo({col:col, row:row}, targetPosition);
 				}
-				if(path[path.length-1].col == col && path[path.length-1].row == row) // arrived
+				//trace("path:" +path);
+				if(path.length <= 1) // arrived
 				{
 					targetPosition = null;
 					isMoving = false;
 					
 					// set new random target
-					gameScreen.setRandomDestination(this);
-					updatePath(null);
-					update();
+					//gameScreen.setRandomDestination(this);
+					//updatePath(null);
+					//update();
 				}
 				else if(targetPosition != null) // has target position
 				{
@@ -160,8 +181,14 @@
 		
 		public function animateMinion(travelTime:Number, targetX:Number, targetY: Number, onCompleteFunc:Function = null)
 		{
-			trace("animate minion");
-			Tweener.addTween(this, {time: travelTime, x: path[1].col*GameData.TILE_SIZE, y: path[1].row*GameData.TILE_SIZE, transition: "linear", onComplete:update});
+			//trace("animate minion");
+			//trace("targetX: "+targetX, "targetY: "+targetY);
+			//trace("target position: "+targetPosition.col, targetPosition.row);
+			if(onCompleteFunc == null)
+			{
+				onCompleteFunc = update;
+			}
+			Tweener.addTween(this, {time: travelTime, x: targetX, y: targetY, transition: "linear", onComplete:onCompleteFunc});
 		}
 	}
 }

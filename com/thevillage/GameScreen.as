@@ -26,6 +26,8 @@
 		var currentMouseTile:Array;
 		var currentPositionAvailable:Boolean;
 		
+		var currClickedMinion:Minion;
+		
 		var gameTimer:Timer;
 		
 		var ind:int;
@@ -72,7 +74,7 @@
 			initGameTimer();
 			
 			// make some starter items (temp)
-			for(var num:int=0; num<8; num++)
+			for(var num:int=0; num<1; num++)
 			{
 				//var tempType:int = Math.random() > 0.5 ? Math.ceil(Math.random()*16) : 101;
 				var tempType:int = 101;
@@ -81,7 +83,8 @@
 				if(tileMap.verifyPosition({row:tempItem.row, col:tempItem.col}, tempItem.itemGrid))
 				{
 					tempItem.positionAvailable = true;
-					tempItem.update();
+					//setRandomDestination(tempItem);
+					//trace("minion destination: "+Minion(tempItem).targetPosition.col, Minion(tempItem).targetPosition.row);
 					placeItem(tempItem);
 				}
 				else
@@ -128,7 +131,7 @@
 					myItem = new Minion(itemType, TileTypes.getItemGridByType(itemType), tileMap.getNewID(), tileMap, this);
 					break;
 				case TileTypes.CROP_FIELD:
-					myItem = new CropField(itemType, TileTypes.getItemGridByType(itemType), tileMap.getNewID());
+					myItem = new CropField(itemType, TileTypes.getItemGridByType(itemType), tileMap.getNewID(), this);
 					break;
 				default:
 					break;
@@ -173,7 +176,7 @@
 				currItem = Item(itemsContainer.getChildAt(itemInd));
 				if(currItem.itemType == TileTypes.VILLAGER)
 				{
-					if(Minion(currItem).isIdle)
+					if(Minion(currItem).isIdle())
 					{
 						return Minion(currItem);
 					}
@@ -236,16 +239,20 @@
 				switch (item.itemType)
 				{
 					case TileTypes.VILLAGER: // villager
-						setRandomDestination(Minion(item));
 						Minion(item).drawItem();
+						Minion(item).update();
+						itemsContainer.setChildIndex(Minion(item), itemsContainer.numChildren-1);
+						
+						Minion(item).initMinion();
 						break;
 					case TileTypes.CROP_FIELD:
 						tileMap.setNode(item, false); // set node(s) to non-traversable
 						Building(item).allMaterialsComing = false;
 						Building(item).allMaterialsReady = false;
 						Building(item).underConstruction = true;
-						
-						Building(item).workers.push(getIdleMinion());
+						itemsContainer.setChildIndex(Building(item), 0);
+						//var idleMinion:Minion = getIdleMinion();
+						//Building(item).workers.push(idleMinion);
 						
 						Building(item).initBuilding();
 						break;
@@ -282,6 +289,20 @@
 		{
 			item.parent.removeChild(item);
 			tileMap.setNode(item, true); // set previous node to traversable
+		}
+		
+		public function minionClick(clickedMinion:Minion)
+		{
+			currClickedMinion = clickedMinion;
+		}
+		
+		public function buildingClick(clickedBuilding:Building)
+		{
+			if(currClickedMinion)
+			{
+				clickedBuilding.workers.push(currClickedMinion);
+				currClickedMinion = null;
+			}
 		}
 		
 		private function getMouseTile():Array

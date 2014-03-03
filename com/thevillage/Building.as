@@ -8,6 +8,7 @@
 	import com.thevillage.Minion;
 	import flash.utils.Timer;
 	import flash.events.TimerEvent;
+	import flash.events.MouseEvent;
 	
 	public class Building extends Item
 	{
@@ -35,7 +36,9 @@
 		
 		public var resource:int;
 		
-		public function Building(type:int, grid:Array, id:int) 
+		private var gameScreen:GameScreen;
+		
+		public function Building(type:int, grid:Array, id:int, _gameScreen:GameScreen) 
 		{
 			super(type, grid, id);
 			
@@ -43,6 +46,7 @@
 			
 			buildingTimer = new Timer(GameData.BUILDING_TICK);
 			buildingTimer.addEventListener(TimerEvent.TIMER, timerUpdate);
+			gameScreen = _gameScreen;
 			
 			workers = [];
 		}
@@ -54,14 +58,21 @@
 		
 		public function initBuilding()
 		{
-			trace("init building");
+			//trace("init building");
 			buildingTimer.start();
 			buildingContent = [];
+			
+			addEventListener(MouseEvent.CLICK, onBuildingClick)
+		}
+		
+		private function onBuildingClick(e:MouseEvent)
+		{
+			gameScreen.buildingClick(this);
 		}
 		
 		override public function update()
 		{
-			trace("building update");
+			//trace("building update");
 			super.update();
 		}
 		

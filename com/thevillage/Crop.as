@@ -27,29 +27,37 @@
 			parent_field = field;
 			
 			workTimer = new Timer(TileTypes.getWorkTimeByType(parent_field.itemType), 1);
-			addEventListener(TimerEvent.TIMER_COMPLETE, finishWork);
+			workTimer.addEventListener(TimerEvent.TIMER_COMPLETE, finishWork);
 		}
 		
-		public function startWork(minion:Minion)
+		public function startWork()
 		{
-			worker = minion;
 			// get the minion to the crop tile (visual)
 			worker.animateMinion(TileTypes.getSpeedByType(TileTypes.VILLAGER), col*GameData.TILE_SIZE, row*GameData.TILE_SIZE);
-			
-			worker.readyToWork = false;
-			
 			workTimer.start();
-			
 			beingWorked = true;
+			//trace("start work");
+			
 		}
 		
 		public function finishWork(e:TimerEvent)
 		{
-			worker.animateMinion(TileTypes.getSpeedByType(TileTypes.VILLAGER), parent_field.rally_col*GameData.TILE_SIZE, parent_field.rally_row*GameData.TILE_SIZE);
-			worker.readyToWork = true;
-			worker = null;
+			//trace("crop harvested");
+			//trace(parent_field.rally_col)
+			//trace(parent_field.rally_row)
 			
+			worker.animateMinion(TileTypes.getSpeedByType(TileTypes.VILLAGER), parent_field.rally_col*GameData.TILE_SIZE, parent_field.rally_row*GameData.TILE_SIZE, fireMinion);
+			//worker.readyToWork = true;
+			//worker = null;
+			level = 0;
 			parent_field.cropHarvested();
+			beingWorked = false;
+		}
+		
+		public function fireMinion()
+		{
+			worker.isAssigned = false;
+			worker = null;
 		}
 	}
 }
