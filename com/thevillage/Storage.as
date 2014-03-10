@@ -1,84 +1,48 @@
 ﻿package com.thevillage 
 {
-public class StorageManager
-{
-	var resources:Object;
-	var maxResources:int;
+	import flash.display.MovieClip;
+	import flash.geom.Point;
+	import com.thevillage.GameData;
+	import com.thevillage.TileSprite;
+	import com.thevillage.TileTypes;
+	import com.thevillage.Minion;
+	import flash.utils.Timer;
+	import flash.events.TimerEvent;
 	
-	public function StorageManager() 
+	public class Storage extends Building
 	{
-		initResources();
-	}
-	
-	public function initResources()
-	{
-		resources.crops = 0;
-		resources.cheese = 0;
-		resources.fish = 0;
-		resources.meat = 0;
-	}
-	
-	public function resourcePush(resType:int, resAmount:int)
-	{
-		var totalResources:int = 0;
-		for each(var amt in resources)
+		public function Storage(type:int, grid:Array, id:int, _gameScreen:GameScreen) 
 		{
-			totalResources += amt;
+			super(type, grid, id, _gameScreen);
 		}
 		
-		if(totalResources + resAmount > maxResources)
+		override public function initBuilding()
 		{
-			// not enough space - wait outside
-		}
-		else
-		{
-			// put the resources here and go back to being idle
-		}
-	}
-	
-	public function resourceQuery(resType:int, resAmount:int)
-	{
-		var storedAmount:int;
-		switch(resType)
-		{
-			case TileTypes.RESOURCE_WHEAT:
-				storedAmount = resources.wheat;
-				break;
-			case TileTypes.RESOURCE_CHEESE:
-				storedAmount = resources.cheese;
-				break;
-			case TileTypes.RESOURCE_FISH:
-				storedAmount = resources.fish;
-				break;
-			case TileTypes.RESOURCE_MEAT:
-				storedAmount = resources.meat;
-				break;
-			case TileTypes.RESOURCE_WOOD:
-				storedAmount = resources.meat;
-				break;
-			case TileTypes.RESOURCE_STONE:
-				storedAmount = resources.meat;
-				break;
-			case TileTypes.RESOURCE_MEAT:
-				storedAmount = resources.meat;
-				break;
-			default:
-				break;
+			super.initBuilding();
+			
+			// set rally point
+			rally_col = col + 1;
+			rally_row = row + 2;
 		}
 		
-		if(storedAmount >= resAmount)
+		override public function drawItem()
 		{
-			// set the resources aside in an array with building location ready for pickup
-			// function returns 0 (no missing resources)
+			super.drawItem();
+			
+			// rally point art
+			var newSprite:TileSprite = new TileSprite(itemType, positionAvailable, true);
+			addChild(newSprite);
 		}
-		else if(storedAmount > 0)
+		
+		override public function update()
 		{
-			// set the resources aside in an array with building location ready for pickup
-			// function returns amount of missing resources
-		}
-		else
-		{
-			// tell the building we don't have this resource
-			// function returns amount of missing resources
+			super.update();
+			
+			
+			//trace("update");
+			// handle crops
+			
+			//trace("my workers: "+workers);
 		}
 	}
+}

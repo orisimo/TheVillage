@@ -35,8 +35,9 @@
 		public var rally_row:int;
 		
 		public var resource:int;
+		public var resType:int;
 		
-		private var gameScreen:GameScreen;
+		public var gameScreen:GameScreen;
 		
 		public function Building(type:int, grid:Array, id:int, _gameScreen:GameScreen) 
 		{

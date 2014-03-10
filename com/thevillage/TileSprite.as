@@ -7,7 +7,7 @@
 	
 	public class TileSprite extends MovieClip
 	{
-		public function TileSprite(itemType:int, positionAvailable:Boolean, isRallyPoint:Boolean = false) 
+		public function TileSprite(itemType:int, positionAvailable:Boolean, isRallyPoint:Boolean = false, tileOrientation:int = 0) 
 		{
 			var art:MovieClip;
 			switch (itemType)
@@ -19,6 +19,18 @@
 				case TileTypes.VILLAGER: // villager
 					art = new ArtVillager() as MovieClip;
 					addChild(MovieClip(art));
+					break;
+				case TileTypes.STOREHOUSE:
+					if(isRallyPoint)
+					{
+						art = new ArtStorageRally() as MovieClip;
+						addChild(MovieClip(art));
+					}
+					else
+					{
+						//art = new ArtStorageContent() as MovieClip;
+						//addChild(MovieClip(art));
+					}
 					break;
 				case TileTypes.CROP_FIELD:
 					if(isRallyPoint)
@@ -34,6 +46,11 @@
 					break;
 				default:
 					break;
+			}
+			
+			if(tileOrientation != 0)
+			{
+				art.gotoAndStop(tileOrientation);
 			}
 			//graphics.beginFill(color, spriteAlpha);
 			//graphics.drawRect(0, 0, GameData.TILE_SIZE, GameData.TILE_SIZE);

@@ -13,10 +13,10 @@
 		private var tileMap:TileMap;
 		
 		public var targetPosition:Object;
-		public var distributionOrder:Object;
+		public var distributionOrder:Building;
 		public var buildingOrder:Building;
 		
-		public var handsContent:Object;
+		public var handsContent:Array;
 		public var isWorking:Boolean;
 		public var isMoving:Boolean;
 		public var isAssigned:Boolean;
@@ -40,7 +40,7 @@
 		
 		public function isIdle():Boolean
 		{
-			return(Boolean(!isWorking && !isMoving));
+			return(Boolean(!isWorking && !isMoving && !distributionOrder && !buildingOrder));
 		}
 		
 		public function initMinion()
@@ -76,12 +76,20 @@
 				{
 					path = tileMap.getPathTo({col:col, row:row}, targetPosition);
 				}
-				//trace("path:" +path);
+				/*if(handsContent)
+				{
+					trace("targetPosition: "+targetPosition.col,targetPosition.row);
+					trace("path:" +path);
+					trace("location: "+col, row);
+					trace("path[0]: "+path[0].col, path[0].row);
+					trace("path test: "+tileMap.getPathTo({col:col, row:row}, targetPosition));
+				}*/
 				if(path.length <= 1) // arrived
 				{
 					targetPosition = null;
+					path = null;
 					isMoving = false;
-					
+					update();
 					// set new random target
 					//gameScreen.setRandomDestination(this);
 					//updatePath(null);
@@ -99,7 +107,10 @@
 					col = path[1].col;
 					row = path[1].row;
 				}
-				path.shift();
+				if(path != null)
+				{
+					path.shift();
+				}
 			}
 			else if(buildingOrder) // buildingOrder holds a Building object (the target building) and will give us access to some variables from the building
 			{
@@ -142,9 +153,11 @@
 			}
 			else if(distributionOrder) // Building object from which we need to pickup
 			{
+				trace("distribution order exists");
 				if(handsContent)
 				{
-					if( gameScreen.storehouse.col == col && gameScreen.storehouse.row == row) // at storehouse
+					trace("hands full");
+					if( gameScreen.storehouse.rally_col == col && gameScreen.storehouse.rally_row == row) // at storehouse
 					{
 						// put stuff in storehouse
 						handsContent = null;
@@ -152,27 +165,32 @@
 					else
 					{
 						// go to storehouse
-						targetPosition = {col:  gameScreen.storehouse.col, row:  gameScreen.storehouse.row};
+						trace("storehouse: "+gameScreen.storehouse);
+						trace("storehouse position: "+gameScreen.storehouse.rally_col, gameScreen.storehouse.rally_row);
+						targetPosition = {col:  gameScreen.storehouse.rally_col, row:  gameScreen.storehouse.rally_row};
 						update();
 					}
 				}
 				else
 				{
-					if( distributionOrder.col == col && distributionOrder.row == row) // at building location
+					trace("hands empty");
+					if( distributionOrder.rally_col == col && distributionOrder.rally_row == row) // at building location
 					{
+						trace("arrived at pickup location");
 						// take merchandise from building
-						//handsContent = something;
+						handsContent = [Math.min(distributionOrder.resource, GameData.MAX_HAND_CONTENT), distributionOrder.resType];
+						distributionOrder.resource = Math.max(0, distributionOrder.resource - GameData.MAX_HAND_CONTENT);
+						
 						// set destination to storehouse
-						targetPosition = {col:  gameScreen.storehouse.col, row:  gameScreen.storehouse.row};
+						targetPosition = {col:  gameScreen.storehouse.rally_col, row:  gameScreen.storehouse.rally_row};
 						update();
 					}
 					else
 					{
+						trace("away from pickup location. heading there now");
 						// set target position to building
-						targetPosition = {col: distributionOrder.col, row: distributionOrder.row};
+						targetPosition = {col: distributionOrder.rally_col, row: distributionOrder.rally_row};
 						update();
-						// reserve the resources at the building
-						distributionOrder.reserveResource(gameScreen.minionCapacity);
 					}
 				}
 				

@@ -76,7 +76,7 @@
 					return [1,1,0,0];
 					break;
 				case STOREHOUSE:
-					return [1];
+					return [1,1,1,1];
 					break;
 				case LUMBERMILL:
 					return [1];
@@ -220,6 +220,38 @@
 					return("Villager");
 					break;
 					
+				default:
+					return("N/A");
+					break;
+			}
+		}
+		
+		public static function resourceNameByType(type:int):String
+		{
+			switch(type)
+			{
+				// Buildings
+				case TileTypes.RESOURCE_WHEAT:
+					return("crops");
+					break;
+				case TileTypes.RESOURCE_CHEESE:
+					return("cheese");
+					break;
+				case TileTypes.RESOURCE_FISH:
+					return("fish");
+					break;
+				case TileTypes.RESOURCE_MEAT:
+					return("meat");
+					break;
+				case TileTypes.RESOURCE_WOOD:
+					return("wood");
+					break;
+				case TileTypes.RESOURCE_STONE:
+					return("stone");
+					break;
+				case TileTypes.RESOURCE_MEAT:
+					return("meat");
+					break;
 				default:
 					return("N/A");
 					break;

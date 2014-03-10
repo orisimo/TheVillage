@@ -16,6 +16,7 @@
 		public function CropField(type:int, grid:Array, id:int, _gameScreen:GameScreen) 
 		{
 			super(type, grid, id, _gameScreen);
+			resType = TileTypes.RESOURCE_WHEAT;
 		}
 		
 		override public function initBuilding()
@@ -136,7 +137,9 @@
 		
 		public function cropHarvested()
 		{
-			changeResourceAmount(GameData.CROP_AMOUNT);
+			//changeResourceAmount(GameData.CROP_AMOUNT);
+			resource = resource + Math.min(GameData.CROP_AMOUNT, GameData.MAX_CROPFIELD_STORAGE);
+			gameScreen.pickupQuery(this)
 		}
 	}
 }

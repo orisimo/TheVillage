@@ -15,6 +15,9 @@
 		
 		public static const CROP_AMOUNT:int = 10;
 		
+		public static const MAX_CROPFIELD_STORAGE:int = 80;
+		public static const MAX_HAND_CONTENT:int = 10;
+		
 		public function GameData()
 		{
 			

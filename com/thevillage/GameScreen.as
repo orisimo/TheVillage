@@ -17,6 +17,9 @@
 		var dragItemPosition:Array
 		var itemsContainer:MovieClip;
 		
+		var currMinions:Array;
+		var currBuildings:Array;
+		
 		var obstaclesContainer:MovieClip;
 		
 		var gridGraphics:MovieClip;
@@ -37,6 +40,8 @@
 		public var minionCapacity:int = 10;
 		
 		var keyboardController:KeyboardController;
+		
+		public var storageManager:StorageManager;
 		
 		public function GameScreen() 
 		{
@@ -67,6 +72,11 @@
 			//drawObstacles();
 			//addChild(obstaclesContainer);
 			
+			storageManager = new StorageManager();
+			
+			currMinions = [];
+			currBuildings = [];
+			
 			itemsContainer = new MovieClip();
 			addChild(itemsContainer);
 			
@@ -78,7 +88,7 @@
 			keyboardController = new KeyboardController(this);
 			
 			// make some starter items (temp)
-			for(var num:int=0; num<1; num++)
+			for(var num:int=0; num<0; num++)
 			{
 				//var tempType:int = Math.random() > 0.5 ? Math.ceil(Math.random()*16) : 101;
 				var tempType:int = 101;
@@ -137,6 +147,9 @@
 				case TileTypes.CROP_FIELD:
 					myItem = new CropField(itemType, TileTypes.getItemGridByType(itemType), tileMap.getNewID(), this);
 					break;
+				case TileTypes.STOREHOUSE:
+					myItem = new Storage(itemType, TileTypes.getItemGridByType(itemType), tileMap.getNewID(), this);
+					break;
 				default:
 					break;
 			}
@@ -174,16 +187,11 @@
 		
 		public function getIdleMinion():Minion
 		{
-			var currItem:Item;
-			for( var itemInd:int = 0; itemInd < itemsContainer.numChildren; itemInd++)
+			for( var minionInd:int = 0; minionInd < currMinions.length; minionInd++)
 			{
-				currItem = Item(itemsContainer.getChildAt(itemInd));
-				if(currItem.itemType == TileTypes.VILLAGER)
+				if(currMinions[minionInd].isIdle() && !currMinions[minionInd].isAssigned)
 				{
-					if(Minion(currItem).isIdle())
-					{
-						return Minion(currItem);
-					}
+					return currMinions[minionInd];
 				}
 			}
 			return null;
@@ -246,6 +254,7 @@
 						Minion(item).drawItem();
 						Minion(item).update();
 						itemsContainer.setChildIndex(Minion(item), itemsContainer.numChildren-1);
+						currMinions.push(Minion(item));
 						
 						Minion(item).initMinion();
 						break;
@@ -255,10 +264,26 @@
 						Building(item).allMaterialsReady = false;
 						Building(item).underConstruction = true;
 						itemsContainer.setChildIndex(Building(item), 0);
+						
+						currBuildings.push(Building(item));
 						//var idleMinion:Minion = getIdleMinion();
 						//Building(item).workers.push(idleMinion);
 						
 						Building(item).initBuilding();
+						break;
+					case TileTypes.STOREHOUSE:
+						tileMap.setNode(item, false); // set node(s) to non-traversable
+						Building(item).allMaterialsComing = false;
+						Building(item).allMaterialsReady = false;
+						Building(item).underConstruction = true;
+						itemsContainer.setChildIndex(Building(item), 0);
+						
+						currBuildings.push(Building(item));
+						//var idleMinion:Minion = getIdleMinion();
+						//Building(item).workers.push(idleMinion);
+						
+						Building(item).initBuilding();
+						storehouse = Building(item);
 						break;
 					default:
 						break;
@@ -341,6 +366,19 @@
 		{
 			x += move_x;
 			y += move_y;
+		}
+		
+		public function pickupQuery(building:Building)
+		{
+			var pickupMinion:Minion = getIdleMinion();
+			if(!pickupMinion)
+			{
+				trace("no idle minions");
+				return;
+			}
+			trace("pickup query. idle minion: "+pickupMinion)
+			pickupMinion.distributionOrder = building;
+			pickupMinion.update();
 		}
 		
 		private function drawObstacles()
