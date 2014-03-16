@@ -161,6 +161,7 @@
 					{
 						// put stuff in storehouse
 						handsContent = null;
+						distributionOrder = null;
 					}
 					else
 					{

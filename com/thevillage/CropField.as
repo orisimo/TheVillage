@@ -77,51 +77,36 @@
 		{
 			super.update();
 			
-			
-			//trace("update");
-			// handle crops
-			
-			//trace("my workers: "+workers);
-			
 			for(var ind:int = 0; ind < buildingContent.length ; ind++)
 			{
 				var crop:Crop = buildingContent[ind];
 				
-				//trace("being worked: "+crop.beingWorked);
-				//trace("crop "+String(ind)+" level: "+crop.level);
 				if(crop.level < 6) // crop not ready
 				{
 					crop.level++;
 				}
-				else if(crop.beingWorked)
+				else if(crop.beingWorked) // crop being worked
 				{
 					// do nothing
 				}
-				else if(crop.worker)
+				else if(crop.worker) // crop has a worker (but not being woreked)
 				{
-					//trace("minion: "+crop.worker.col, crop.worker.row)
-					//trace("crop: "+crop.col, crop.row)
 					if(crop.worker.col == rally_col && crop.worker.row == rally_row && crop.worker.isIdle()) // the minion is in the cropfield location
 					{
 						crop.startWork();
 					}
-					else if(!crop.worker.targetPosition) // the minion isn't in the cropfield location and not on the way
+					else if(!crop.worker.targetPosition) // the minion isn't on the way (and not in the cropfield location)
 					{
-						//trace("the minion is somewhere else");
-						//trace("set target position to here: "+crop.col+" "+crop.row);
 						crop.worker.targetPosition = {col: rally_col, row: rally_row};
 						crop.worker.update();
 					}
-					// already has a worker. do nothing
 				}
 				else if(workers) // we have some minions to work the field
 				{
-					//trace("workers: "+workers);
-					for(var minion_ind:int = 0; minion_ind < workers.length; minion_ind++)
+					for(var minion_ind:int = 0; minion_ind < workers.length; minion_ind++) // loop through the workers
 					{
 						var curr_minion:Minion = workers[minion_ind];
-						//trace("curr_minion.readyToWork: "+curr_minion.readyToWork);
-						if(!curr_minion.isAssigned)
+						if(!curr_minion.isAssigned) // found an available worker
 						{
 							//trace("got a ready minion");
 							crop.worker = curr_minion;
@@ -137,8 +122,7 @@
 		
 		public function cropHarvested()
 		{
-			//changeResourceAmount(GameData.CROP_AMOUNT);
-			resource = resource + Math.min(GameData.CROP_AMOUNT, GameData.MAX_CROPFIELD_STORAGE);
+			resource = resource + GameData.CROP_AMOUNT;
 			gameScreen.pickupQuery(this)
 		}
 	}
