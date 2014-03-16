@@ -34,6 +34,9 @@
 		public var rally_col:int;
 		public var rally_row:int;
 		
+		public var cache_col:int;
+		public var cache_row:int;
+		
 		public var resource:int;
 		public var resType:int;
 		

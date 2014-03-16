@@ -11,8 +11,9 @@
 	{
 		public static var heuristic:Function = Pathfinder.diagonalHeuristic;			
 		
-		public static function findPath( firstNode:INode, destinationNode:INode, connectedNodeFunction:Function ):Array 
+		public static function findPath( firstNode:INode, destinationNode:INode, connectedNodeFunction:Function, ghostMode:Boolean = false):Array 
 		{
+			//trace("destinationNode: "+destinationNode);
 			var openNodes:Array = [];
 			var closedNodes:Array = [];			
 			
@@ -43,7 +44,7 @@
 					
 					testNode = connectedNodes[i];
 					
-					if (testNode == currentNode || testNode.traversable == false) continue;					
+					if (testNode == currentNode || (testNode.traversable == false && ghostMode == false)) continue;					
 					
 					//For our example we will test just highlight all the tested nodes
 					

@@ -16,7 +16,7 @@
 		
 		public var parent_field:CropField;
 		
-		private var workTimer:Timer;
+		public var workTimer:Timer;
 		
 		public function Crop(field:CropField, _col:int, _row:int) 
 		{
@@ -25,16 +25,22 @@
 			row = _row;
 			
 			parent_field = field;
-			
 			workTimer = new Timer(TileTypes.getWorkTimeByType(parent_field.itemType), 1);
 			workTimer.addEventListener(TimerEvent.TIMER_COMPLETE, finishWork);
 		}
 		
 		public function startWork()
 		{
-			// get the minion to the crop tile (visual)
-			worker.animateMinion(TileTypes.getSpeedByType(TileTypes.VILLAGER), col*GameData.TILE_SIZE, row*GameData.TILE_SIZE);
-			workTimer.start();
+			//trace("start work (send to crop)");
+			
+			// get the minion to the crop tile
+			//worker.animateMinion(TileTypes.getSpeedByType(TileTypes.VILLAGER), col*GameData.TILE_SIZE, row*GameData.TILE_SIZE);
+			worker.ghostMode = true;
+			worker.targetPosition = {col: col, row: row};
+			worker.parent_object = this;
+			worker.onCompleteFunc = function() {this.parent_object.workTimer.start(); this.update();};
+			worker.update();
+			//workTimer.start();
 			beingWorked = true;
 			//trace("start work");
 			
@@ -42,22 +48,20 @@
 		
 		public function finishWork(e:TimerEvent)
 		{
-			//trace("crop harvested");
-			//trace(parent_field.rally_col)
-			//trace(parent_field.rally_row)
-			
-			worker.animateMinion(TileTypes.getSpeedByType(TileTypes.VILLAGER), parent_field.rally_col*GameData.TILE_SIZE, parent_field.rally_row*GameData.TILE_SIZE, fireMinion);
-			//worker.readyToWork = true;
-			//worker = null;
+			trace("finish work (send to cache)");
+			workTimer.reset();
+			worker.targetPosition = {col: parent_field.cache_col, row: parent_field.cache_row};
+			worker.onCompleteFunc = function(){parent_field.cropHarvested(); this.update();}
+			worker.update();
 			level = 0;
-			parent_field.cropHarvested();
 			beingWorked = false;
 		}
 		
 		public function fireMinion()
 		{
+			worker.onCompleteFunc = function(){this.ghostMode = false;};
 			worker.isAssigned = false;
-			worker = null;
+			beingWorked = false;
 		}
 	}
 }

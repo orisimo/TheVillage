@@ -12,6 +12,7 @@
 	public class CropField extends Building
 	{
 		var currCrop:Crop;
+		var rallyArt:TileSprite;
 		
 		public function CropField(type:int, grid:Array, id:int, _gameScreen:GameScreen) 
 		{
@@ -29,6 +30,12 @@
 			// init resource
 			resource = 0;
 			
+			// set cache_point
+			cache_col = col;
+			cache_row = row;
+			
+			trace(" col and row: "+col, row);
+			
 			// set rally point
 			rally_col = col + 0;
 			rally_row = row + 1;
@@ -39,14 +46,10 @@
 			super.drawItem();
 			
 			// rally point art
-			var newSprite:TileSprite = new TileSprite(itemType, positionAvailable, true);
-			addChild(newSprite);
+			rallyArt = new TileSprite(itemType, positionAvailable, true);
+			addChild(rallyArt);
 			
-			// first crop
-			var crop_col:int = col+1;
-			var crop_row:int = row;
-			
-			newSprite = new TileSprite(itemType, positionAvailable);
+			var newSprite:TileSprite = new TileSprite(itemType, positionAvailable);
 			newSprite.x = GameData.TILE_SIZE;
 			
 			addChild(newSprite);
@@ -67,7 +70,7 @@
 		private function initCrop(add_col:int, add_row:int)
 		{
 			var crop_col:int = col + add_col;
-			var crop_row = row + add_row;
+			var crop_row:int = row + add_row;
 			
 			crop = new Crop(this, crop_col, crop_row);
 			buildingContent.push(crop);
@@ -89,14 +92,15 @@
 				{
 					// do nothing
 				}
-				else if(crop.worker) // crop has a worker (but not being woreked)
+				else if(crop.worker) // crop has a worker (but not being worked)
 				{
-					if(crop.worker.col == rally_col && crop.worker.row == rally_row && crop.worker.isIdle()) // the minion is in the cropfield location
+					if( ( ( crop.worker.col == rally_col && crop.worker.row == rally_row ) || ( crop.worker.col == cache_col && crop.worker.row == cache_row ) ) && crop.worker.isIdle()) // the minion is in the cropfield rally location
 					{
 						crop.startWork();
 					}
 					else if(!crop.worker.targetPosition) // the minion isn't on the way (and not in the cropfield location)
 					{
+						//trace("send minion to rally");
 						crop.worker.targetPosition = {col: rally_col, row: rally_row};
 						crop.worker.update();
 					}
@@ -111,7 +115,7 @@
 							//trace("got a ready minion");
 							crop.worker = curr_minion;
 							crop.worker.isAssigned = true;
-							update();
+							ind--;
 							break;
 						}
 						
@@ -123,6 +127,11 @@
 		public function cropHarvested()
 		{
 			resource = resource + GameData.CROP_AMOUNT;
+			var gotoFrame:int = int(resource/GameData.MAX_CROPFIELD_STORAGE*MovieClip(rallyArt.getChildAt(0)).totalFrames)+1;
+			//trace("total frames: "+rallyArt.totalFrames);
+			//trace("resource: "+resource+" max resource: "+GameData.MAX_CROPFIELD_STORAGE);
+			//trace("go to frame: "+ gotoFrame);
+			MovieClip(rallyArt.getChildAt(0)).gotoAndStop(gotoFrame);
 			gameScreen.pickupQuery(this)
 		}
 	}

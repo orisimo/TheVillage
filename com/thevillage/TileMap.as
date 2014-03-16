@@ -132,10 +132,12 @@
 			}
 		}
 		
-		public function getPathTo(startPosition:Object, targetPosition:Object):Array
+		public function getPathTo(startPosition:Object, targetPosition:Object, ghostMode:Boolean):Array
 		{
 			clearMap();
-			return Pathfinder.findPath(map[startPosition.col+startPosition.row*GameData.GRID_WIDTH], map[targetPosition.col+targetPosition.row*GameData.GRID_WIDTH], findConnectedNodes);
+			//trace("startPosition: "+startPosition.col, startPosition.row);
+			//trace("targetPosition: "+targetPosition.col, targetPosition.row);
+			return Pathfinder.findPath(map[startPosition.col+startPosition.row*GameData.GRID_WIDTH], map[targetPosition.col+targetPosition.row*GameData.GRID_WIDTH], findConnectedNodes, ghostMode);
 		}
 		
 		public function findConnectedNodes( node:INode ):Array

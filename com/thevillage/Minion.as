@@ -6,6 +6,7 @@
 	import com.untoldentertainment.pathfinding.Pathfinder;
 	import caurina.transitions.*;
 	import flash.events.MouseEvent;
+	import flash.display.MovieClip;
 	
 	
 	public class Minion extends Item
@@ -24,6 +25,11 @@
 		private var path:Array;
 		
 		private var gameScreen:GameScreen;
+		
+		public var onCompleteFunc:Function;
+		public var ghostMode:Boolean = false;
+		
+		public var parent_object:MovieClip;
 		
 		public function Minion(type:int, grid:Array, id:int, _tileMap:TileMap, _gameScreen:GameScreen) 
 		{
@@ -58,7 +64,7 @@
 		{
 			if(targetPosition != null)
 			{
-				path = tileMap.getPathTo({col:col, row:row}, targetPosition);
+				path = tileMap.getPathTo({col:col, row:row}, targetPosition, ghostMode);
 			}
 		}
 		
@@ -74,7 +80,7 @@
 				// build a path
 				if(!path)
 				{
-					path = tileMap.getPathTo({col:col, row:row}, targetPosition);
+					path = tileMap.getPathTo({col:col, row:row}, targetPosition, ghostMode);
 				}
 				/*if(handsContent)
 				{
@@ -86,6 +92,7 @@
 				}*/
 				if(path.length <= 1) // arrived
 				{
+					trace("arrived")
 					targetPosition = null;
 					path = null;
 					isMoving = false;
@@ -102,7 +109,8 @@
 					var travelTime:Number = TileTypes.getSpeedByType(itemType);
 					
 					//Tweener.addTween(this, {time: travelTime, x: path[1].col*GameData.TILE_SIZE, y: path[1].row*GameData.TILE_SIZE, transition: "linear", onComplete:update});
-					animateMinion(travelTime, path[1].col*GameData.TILE_SIZE, path[1].row*GameData.TILE_SIZE, update);
+					// path.length ==2 --> last movement
+					animateMinion(travelTime, path[1].col*GameData.TILE_SIZE, path[1].row*GameData.TILE_SIZE, Boolean(path.length == 2));
 					
 					col = path[1].col;
 					row = path[1].row;
@@ -198,16 +206,22 @@
 			}
 		}
 		
-		public function animateMinion(travelTime:Number, targetX:Number, targetY: Number, onCompleteFunc:Function = null)
+		public function animateMinion(travelTime:Number, targetX:Number, targetY: Number, lastMovement:Boolean = false)
 		{
 			//trace("animate minion");
 			//trace("targetX: "+targetX, "targetY: "+targetY);
 			//trace("target position: "+targetPosition.col, targetPosition.row);
-			if(onCompleteFunc == null)
+			var myOnCompleteFunc:Function;
+			if(onCompleteFunc!=null && lastMovement)
 			{
-				onCompleteFunc = update;
+				myOnCompleteFunc = onCompleteFunc;
+				onCompleteFunc = null;
 			}
-			Tweener.addTween(this, {time: travelTime, x: targetX, y: targetY, transition: "linear", onComplete:onCompleteFunc});
+			else
+			{
+				myOnCompleteFunc = update;
+			}
+			Tweener.addTween(this, {time: travelTime, x: targetX, y: targetY, transition: "linear", onComplete:myOnCompleteFunc});
 		}
 		
 		override public function drawItem()
