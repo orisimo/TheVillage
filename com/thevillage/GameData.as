@@ -19,7 +19,11 @@
 		public static const MAX_CROPFIELD_STORAGE:int = 80;
 		public static const MAX_HAND_CONTENT:int = 10;
 		
-		public static const FOREST_SIZE:int = 20;
+		public static const FOREST_NODES:Array = [[18, 0], [19, 0], [20, 0], [21, 0], [22, 0], [23, 0], [24, 0],
+												  [18, 1], [19, 1], [20, 1], [21, 1], [22, 1], [23, 1], [24, 1],
+												  		   [19, 2], [20, 2], [21, 2], [22, 2], [23, 2], [24, 2],
+														   		    [20, 3], [21, 3], [22, 3], [23, 3], [24, 3],
+																					  [22, 2], [23, 2], [24, 2],
 		
 		public function GameData()
 		{

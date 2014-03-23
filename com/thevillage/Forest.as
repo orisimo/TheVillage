@@ -16,6 +16,8 @@
 			for(var treeInd:int = 0; treeInd < GameData.FOREST_SIZE; treeInd++)
 			{
 				newTree = new TileSprite(TileTypes.TREE);
+				var treeObject:Object = {level: 0, col: 1, row: 1, art: newTree};
+				trees.push(treeObject);
 			}
 		}
 		
@@ -23,7 +25,7 @@
 		{
 			super.update();
 			
-			for(var ind:int = 0; ind < buildingContent.length ; ind++)
+			for(var ind:int = 0; ind < trees.length ; ind++)
 			{
 				var crop:Crop = buildingContent[ind];
 				
