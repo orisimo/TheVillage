@@ -84,7 +84,11 @@
 					trace("path[0]: "+path[0].col, path[0].row);
 					trace("path test: "+tileMap.getPathTo({col:col, row:row}, targetPosition));
 				}*/
-				if(path.length <= 1) // arrived
+				if(path==null)
+				{
+					trace("path from "+String(col)+" "+ String(row) +" to "+String(targetPosition.col)+" "+ String(targetPosition.row)+" is blocked");
+				}
+				else if(path.length <= 1) // arrived
 				{
 					targetPosition = null;
 					path = null;
