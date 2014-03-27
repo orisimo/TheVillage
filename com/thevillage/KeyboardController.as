@@ -26,10 +26,10 @@
 			
 			switch(e.keyCode)
 			{
-				case 33: //PgUp
+				case 187: //PgUp
 					gameScreen.zoomMap(true);
 					break;
-				case 34: //PgDn
+				case 189: //PgDn
 					gameScreen.zoomMap(false);
 					break;
 				case 37: //ArrowLeft
