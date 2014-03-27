@@ -4,13 +4,17 @@
 	{
 		var resources:Object;
 		var maxResources:int;
+		var gameScreen:GameScreen;
 		
 		public var reservations:Array;
 		
-		public function StorageManager() 
+		public function StorageManager(_gameScreen:GameScreen) 
 		{
+			gameScreen = _gameScreen;
 			initResources();
 			reservations = [];
+			
+			maxResources = 300;
 		}
 		
 		public function initResources()
@@ -25,13 +29,15 @@
 			resources.metal = 0;
 		}
 		
-		public function resourcePush(resType:int, resAmount:int)
+		public function resourcePush(resAmount:int, resType:int)
 		{
 			var totalResources:int = 0;
 			for each(var amt in resources)
 			{
 				totalResources += amt;
 			}
+			
+			trace("storage manager res push. max res: "+maxResources+" total res: "+totalResources+" res added: "+resAmount);
 			
 			if(totalResources + resAmount > maxResources)
 			{
@@ -40,7 +46,10 @@
 			else
 			{
 				// put the resources here and go back to being idle
+				//trace("placing resources "+resAmount);
 				resources[TileTypes.resourceNameByType(resType)]+=resAmount;
+				trace("what i send to gamescreen - resType: "+resType+" amount: "+resources[TileTypes.resourceNameByType(resType)]);
+				gameScreen.updateResources(resType, resources[TileTypes.resourceNameByType(resType)]);
 				//resources["wheat"]+=resAmount;
 			}
 		}

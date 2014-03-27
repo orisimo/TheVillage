@@ -15,8 +15,8 @@
 		
 		public function Main() 
 		{
-			gameUI = new GameUI(food_btn, villagers_btn, train_btn, build_btn);
-			screen = new GameScreen();
+			gameUI = new GameUI(food_btn, villagers_btn, train_btn, build_btn, resource_panel);
+			screen = new GameScreen(gameUI);
 			
 			addChild(screen);
 			addChild(gameUI);

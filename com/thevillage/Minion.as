@@ -172,6 +172,8 @@
 					if( gameScreen.storehouse.rally_col == col && gameScreen.storehouse.rally_row == row) // at storehouse
 					{
 						// put stuff in storehouse
+						trace("pushing resources");
+						gameScreen.storageManager.resourcePush(handsContent[0], handsContent[1]);
 						handsContent = null;
 						distributionOrder = null;
 					}

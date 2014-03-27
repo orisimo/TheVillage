@@ -42,8 +42,12 @@
 		
 		public var storageManager:StorageManager;
 		
-		public function GameScreen() 
+		var gameUI:GameUI;
+		
+		public function GameScreen(game_ui:GameUI) 
 		{
+			gameUI = game_ui;
+			
 			if(stage)
 			{
 				init();
@@ -71,7 +75,7 @@
 			//drawObstacles();
 			//addChild(obstaclesContainer);
 			
-			storageManager = new StorageManager();
+			storageManager = new StorageManager(this);
 			
 			currMinions = [];
 			currBuildings = [];
@@ -168,7 +172,7 @@
 		private function createItem(itemType:int, position:Array, parent_building:Building = null):Item
 		{
 			
-			trace("createItem");
+			//trace("createItem");
 			var myItem:Item;
 			
 			switch (itemType)
@@ -492,10 +496,10 @@
 			var pickupMinion:Minion = getIdleMinion();
 			if(!pickupMinion)
 			{
-				trace("no idle minions");
+				//trace("no idle minions");
 				return;
 			}
-			trace("pickup query. idle minion:" + pickupMinion)
+			//trace("pickup query. idle minion:" + pickupMinion)
 			pickupMinion.distributionOrder = building;
 			pickupMinion.update();
 		}
@@ -516,6 +520,12 @@
 					}
 				}
 			}
+		}
+		
+		public function updateResources(resType:int, resAmount:int)
+		{
+			trace("gameScreen update resources: "+resAmount);
+			gameUI.updateResourcePanel(resType, resAmount);
 		}
 	}
 	
