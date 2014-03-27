@@ -94,26 +94,40 @@
 				{
 					// do nothing
 				}
-				else if(crop.worker) // crop has a worker (but not being woreked)
+				else if(crop.worker) // crop has a worker (but not being worked)
 				{
-					if(crop.worker.col == rally_col && crop.worker.row == rally_row && crop.worker.isIdle()) // the minion is in the cropfield location
+					if(crop.worker.col == cache_col && crop.worker.row == cache_row && crop.worker.isIdle()) // the minion is ready in the cropfield location
 					{
 						crop.startWork();
 					}
 					else if(!crop.worker.targetPosition) // the minion isn't on the way (and not in the cropfield location)
 					{
-						crop.worker.targetPosition = {col: rally_col, row: rally_row};
+						if(crop.worker.ghostMode) // already assigned to this building probably
+						{
+							crop.worker.targetPosition = {col: cache_col, row: cache_row};
+						}
+						else if (crop.worker.col == rally_col && crop.worker.row == rally_row) // just got to the rally point after being attached to this cropfield
+						{
+							crop.worker.ghostMode = true;
+							crop.worker.targetPosition = {col: cache_col, row: cache_row};
+						}
+						else
+						{
+							crop.worker.targetPosition = {col: rally_col, row: rally_row};
+						}
+						
 						crop.worker.update();
 					}
 				}
-				else if(workers) // we have some minions to work the field
+				else if(workers.length > 1) // we have some minions to work the field
 				{
+					trace("we have workers");
 					for(var minion_ind:int = 0; minion_ind < workers.length; minion_ind++) // loop through the workers
 					{
 						var curr_minion:Minion = workers[minion_ind];
 						if(!curr_minion.isAssigned) // found an available worker
 						{
-							//trace("got a ready minion");
+							trace("assigning");
 							crop.worker = curr_minion;
 							crop.worker.isAssigned = true;
 							update();

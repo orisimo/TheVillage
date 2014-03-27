@@ -51,9 +51,10 @@
 			trace("finish work (send to cache)");
 			workTimer.reset();
 			worker.targetPosition = {col: parent_field.cache_col, row: parent_field.cache_row};
-			worker.onCompleteFunc = function(){parent_field.cropHarvested(); this.update();}
+			worker.onCompleteFunc = function(){parent_field.cropHarvested(); this.isAssigned = false; this.update();}
 			worker.update();
 			level = 0;
+			worker = null;
 			beingWorked = false;
 		}
 		
