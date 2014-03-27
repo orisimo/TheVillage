@@ -182,7 +182,7 @@
 					break;
 					
 				case TileTypes.LUMBERMILL:
-					myItem = new Lumbermill(itemType, TileTypes.getItemGridByType(itemType), tileMap.getNewID(), this);
+					myItem = new Lumbermill(itemType, TileTypes.getItemGridByType(itemType), tileMap.getNewID(), this, forest);
 					break;
 					
 				case TileTypes.PASTURE:
