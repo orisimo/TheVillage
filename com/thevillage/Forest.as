@@ -9,8 +9,9 @@
 			gameScreen = _gameScreen;
 		}
 		
-		public function initBuilding()
+		public override function initBuilding()
 		{
+			super.initBuilding();
 			var newTree:TileSprite;
 			for(var treeInd:int = 0; treeInd < GameData.FOREST_NODES.length; treeInd++)
 			{
@@ -27,7 +28,7 @@
 		{
 			super.update();
 			
-			for(var ind:int = 0; ind < trees.length ; ind++)
+			for(var ind:int = 0; ind < buildingContent.length ; ind++)
 			{
 				var tree:Object = buildingContent[ind];
 				
