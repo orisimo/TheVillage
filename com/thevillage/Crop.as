@@ -51,17 +51,11 @@
 			trace("finish work (send to cache)");
 			workTimer.reset();
 			worker.targetPosition = {col: parent_field.cache_col, row: parent_field.cache_row};
-			worker.onCompleteFunc = function(){parent_field.cropHarvested(); this.isAssigned = false; this.update();}
+			worker.onCompleteFunc = function(){parent_field.cropHarvested(); this.update();}
 			worker.update();
 			level = 0;
+			worker.isWorking = false;
 			worker = null;
-			beingWorked = false;
-		}
-		
-		public function fireMinion()
-		{
-			worker.onCompleteFunc = function(){this.ghostMode = false;};
-			worker.isAssigned = false;
 			beingWorked = false;
 		}
 	}

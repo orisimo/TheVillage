@@ -125,11 +125,10 @@
 					for(var minion_ind:int = 0; minion_ind < workers.length; minion_ind++) // loop through the workers
 					{
 						var curr_minion:Minion = workers[minion_ind];
-						if(!curr_minion.isAssigned) // found an available worker
+						if(!curr_minion.isIdle()) // found an available worker
 						{
 							trace("assigning");
 							crop.worker = curr_minion;
-							crop.worker.isAssigned = true;
 							update();
 							break;
 						}
