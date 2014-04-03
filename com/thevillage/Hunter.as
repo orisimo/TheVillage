@@ -14,11 +14,9 @@
 		
 		var tree:ForestTree;
 		var currTree:ForestTree;
-		var forest:Forest;
+		var wildlife:Wildlife;
 		
 		public var level:int;
-		public var row:int;
-		public var col:int;
 		
 		public var worker:Minion;
 		
@@ -26,7 +24,7 @@
 		
 		public var workTimer:Timer;
 		
-		public function Hunter(type:int, grid:Array, id:int, _gameScreen:GameScreen, _forest:Forest) 
+		public function Hunter(type:int, grid:Array, id:int, _gameScreen:GameScreen, _wildlife:Wildlife) 
 		{
 			super(type, grid, id, _gameScreen);
 			
@@ -35,7 +33,7 @@
 			row = _row;
 			
 			resType = TileTypes.RESOURCE_MEAT;
-			forest = _forest;
+			wildlife = _wildlife;
 		}
 		
 		override public function initBuilding()

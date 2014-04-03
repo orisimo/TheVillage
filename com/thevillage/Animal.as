@@ -4,7 +4,7 @@
 	import flash.events.TimerEvent;
 	import flash.display.MovieClip;
 	
-	public class ForestTree extends MovieClip
+	public class Animal extends MovieClip
 	{
 		public var level:int;
 		public var row:int;
@@ -13,13 +13,13 @@
 		public var beingWorked:Boolean;		
 		public var worker:Minion;		
 		public var parent_hunter:Hunter;
-		public var forest:Forest;
+		public var wildlife:Wildlife;
 		public var workTimer:Timer;
 		public var art:TileSprite;
 		
 		
 		
-		public function ForestTree (_col:int, _row:int, forest:Forest) 
+		public function Animal (_col:int, _row:int, wildlife:Wildlife) 
 		{			
 			
 			level = GameData.ANIMAL_BIRTH_RATE;

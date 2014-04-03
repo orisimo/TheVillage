@@ -17,7 +17,6 @@
 			
 			for(var treeInd:int = 0; treeInd < GameData.FOREST_NODES.length; treeInd++)
 			{
-				
 				//var treeObject:ForestTree = {level: 0, col: GameData.FOREST_NODES[treeInd][0], row: GameData.FOREST_NODES[treeInd][1], art: newTree};
 				var treeObject:ForestTree = new ForestTree (GameData.FOREST_NODES[treeInd][0], GameData.FOREST_NODES[treeInd][1], this);
 				treeObject.x = treeObject.col * GameData.TILE_SIZE;
