@@ -80,7 +80,7 @@
 			}
 		}
 		
-		public function treeHarvested()
+		public function animalHarvested()
 		{
 			resource = resource + GameData.CROP_AMOUNT;
 			gameScreen.pickupQuery(this)
