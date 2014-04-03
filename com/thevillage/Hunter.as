@@ -12,26 +12,12 @@
 	public class Hunter extends Building
 	{
 		
-		var tree:ForestTree;
-		var currTree:ForestTree;
+		var animal:Animal;
 		var wildlife:Wildlife;
-		
-		public var level:int;
-		
-		public var worker:Minion;
-		
-		public var parent_field:CropField;
-		
-		public var workTimer:Timer;
 		
 		public function Hunter(type:int, grid:Array, id:int, _gameScreen:GameScreen, _wildlife:Wildlife) 
 		{
 			super(type, grid, id, _gameScreen);
-			
-			level = 0;
-			col = _col;
-			row = _row;
-			
 			resType = TileTypes.RESOURCE_MEAT;
 			wildlife = _wildlife;
 		}
@@ -40,7 +26,7 @@
 		{
 			super.initBuilding();
 			
-			// init trees
+			// init animals
 			//initCrop(1, 0);
 			
 			// init resource
@@ -61,6 +47,31 @@
 			// rally point art
 			var newSprite:TileSprite = new TileSprite(itemType, positionAvailable, true);
 			addChild(newSprite);
+			
+			// first animal
+			//var animal_col:int = col+1;
+			//var animal_row:int = row;
+			
+			/*
+			
+			newSprite = new TileSprite(itemType, positionAvailable);
+			newSprite.x = GameData.TILE_SIZE;
+			
+			addChild(newSprite);
+			
+			*/
+			
+			/*for(var ind:int = 0; ind < itemGrid.length ; ind++)
+			{
+				if(itemGrid[ind])
+				{
+					var animal_col:int = col + ind%Math.sqrt(itemGrid.length);
+					var animal_row = row + Math.floor(ind/Math.sqrt(itemGrid.length));
+				
+					animal = new Crop(this, animal_col, animal_row);
+					buildingContent.push(animal);
+				}
+			}*/
 		}
 		
 		
@@ -68,43 +79,69 @@
 		{
 			super.update();
 			
-			for(var minion_ind:int = 0; minion_ind < workers.length; minion_ind++) // loop through the workers
+			for(var ind:int = 0; ind < wildlife.buildingContent.length ; ind++)
 			{
-				var curr_minion:Minion = workers[minion_ind];
-				if(curr_minion.isIdle()) // found an available worker
+				
+				var animal:Animal = wildlife.buildingContent[ind];
+				
+				if(animal.level < GameData.ANIMAL_BIRTH_RATE)
 				{
-					trace("assigning");
-					startWork(curr_minion);
-					break;
+					// do nothing				
+				}
+				
+				else if(animal.beingWorked) // animal being worked
+				{
+					// do nothing
+				}
+				else if(animal.worker) // animal has a worker (but not being worked)
+				{
+					if(animal.worker.col == cache_col && animal.worker.row == cache_row && animal.worker.isIdle()) // the minion is ready in the animalfield location
+					{
+						animal.startWork();
+					}
+					else if(!animal.worker.targetPosition) // the minion isn't on the way (and not in the wildlife location)
+					{
+						if(animal.worker.ghostMode) // already assigned to this building probably
+						{
+							animal.worker.targetPosition = {col: cache_col, row: cache_row};
+						}
+						else if (animal.worker.col == rally_col && animal.worker.row == rally_row) // just got to the rally point after being attached to this animalfield
+						{
+							//animal.worker.ghostMode = true;
+							animal.worker.targetPosition = {col: cache_col, row: cache_row};
+						}
+						else
+						{
+							animal.worker.targetPosition = {col: rally_col, row: rally_row};
+						}
+						
+						animal.worker.update();
+					}
+				}
+				else if(workers.length > 1) // we have some minions to work the field
+				{
+					trace("we have workers");
+					for(var minion_ind:int = 0; minion_ind < workers.length; minion_ind++) // loop through the workers
+					{
+						var curr_minion:Minion = workers[minion_ind];
+						if(curr_minion.isIdle()) // found an available worker
+						{
+							trace("assigning");
+							animal.worker = curr_minion;
+							animal.parent_hunter = this;
+							//update();
+							break;
+						}
+						
+					}
 				}
 			}
 		}
 		
 		public function animalHarvested()
 		{
-			resource = resource + GameData.CROP_AMOUNT;
+			resource = resource + GameData.MEAT_AMOUNT;
 			gameScreen.pickupQuery(this)
-		}
-		
-		public function startWork(worker:Minion)
-		{
-			worker.ghostMode = true;
-			worker.targetPosition = {col: col, row: row};
-			worker.parent_object = this;
-			worker.onCompleteFunc = function() {this.parent_object.workTimer.start(); this.update();};
-			worker.update();
-			//trace("start work");
-			
-		}
-		public function finishWork(e:TimerEvent)
-		{
-			trace("finish work (send to cache)");
-			workTimer.reset();
-			worker.targetPosition = {col: parent_field.cache_col, row: parent_field.cache_row};
-			worker.onCompleteFunc = function(){parent_field.cropHarvested(); this.update();}
-			worker.isWorking = false;
-			worker.update();
-			beingWorked = false;
 		}
 	}
 }

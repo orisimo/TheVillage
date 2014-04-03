@@ -15,7 +15,7 @@
 		{
 			super.initBuilding();
 			
-			for(var animalInd:int = 0; animalInd < GameData.WILFLIFE_NODES.length; animalInd++)
+			for(var animalInd:int = 0; animalInd < GameData.WILDLIFE_NODES.length; animalInd++)
 			{
 				
 				//var animalObject:Animal = {level: 0, col: GameData.WILDLIFE_NODES[animalInd][0], row: GameData.WILDLIFE_NODES[animalInd][1], art: newTree};
