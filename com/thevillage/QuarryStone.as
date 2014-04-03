@@ -12,7 +12,7 @@
 		
 		public var beingWorked:Boolean;		
 		public var worker:Minion;		
-		public var parent_mill:Stonecutter;
+		public var parent_cutter:Stonecutter;
 		public var quarry:Quarry;
 		public var workTimer:Timer;
 		public var art:TileSprite;
@@ -60,8 +60,8 @@
 		{
 			trace("finish work (send to cache)");
 			workTimer.reset();
-			worker.targetPosition = {col: parent_mill.cache_col, row: parent_mill.cache_row};
-			worker.onCompleteFunc = function(){parent_mill.treeHarvested(); this.update();}
+			worker.targetPosition = {col: parent_cutter.cache_col, row: parent_cutter.cache_row};
+			worker.onCompleteFunc = function(){parent_cutter.stoneHarvested(); this.update();}
 			worker.update();
 			level = 0;
 			worker.isWorking = false;
