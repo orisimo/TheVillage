@@ -2,14 +2,13 @@
 	
 	public class Forest extends Building
 	{
-		
-		var animalAmount:int = GameData.ANIMAL_START_AMOUNT;
-		var animalRate:int = GameData.ANIMAL_BIRTH_RATE;
+		var numTrees:int;
 		
 		public function Forest(type:int, grid:Array, id:int, _gameScreen:GameScreen) 
 		{
 			super(type, grid, id, _gameScreen);
 			gameScreen = _gameScreen;
+			numTrees = 0;
 		}
 		
 		public override function initBuilding()
@@ -34,7 +33,7 @@
 		{
 			super.update();
 			
-			var numTrees:int = 0;
+			numTrees = 0;
 			
 			for(var ind:int = 0; ind < buildingContent.length ; ind++)
 			{
@@ -50,9 +49,6 @@
 					numTrees++;
 				}
 			}
-			
-			animalAmount += int(animalRate * numTrees / buildingContent.length);
-			
 		}
 
 	}

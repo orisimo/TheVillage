@@ -116,7 +116,7 @@
 							//trace("got a ready minion");
 							pen.worker = curr_minion;
 							pen.worker.isAssigned = true;
-							update();
+							//update();
 							break;
 						}
 						

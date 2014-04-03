@@ -129,7 +129,7 @@
 						{
 							trace("assigning");
 							crop.worker = curr_minion;
-							update();
+							//update();
 							break;
 						}
 						
