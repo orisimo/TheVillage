@@ -82,6 +82,8 @@
 		{
 			super.update();
 			
+			trace("my workers: "+workers);
+			
 			for(var ind:int = 0; ind < buildingContent.length ; ind++)
 			{
 				var crop:Crop = buildingContent[ind];
@@ -119,7 +121,7 @@
 						crop.worker.update();
 					}
 				}
-				else if(workers.length > 1) // we have some minions to work the field
+				else if(workers.length > 0) // we have some minions to work the field
 				{
 					trace("we have workers");
 					for(var minion_ind:int = 0; minion_ind < workers.length; minion_ind++) // loop through the workers

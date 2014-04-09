@@ -536,15 +536,18 @@
 		
 		public function minionClick(clickedMinion:Minion)
 		{
+			trace("minion click");
 			currClickedMinion = clickedMinion;
 		}
 		
 		public function buildingClick(clickedBuilding:Building)
 		{
-			if(currClickedMinion)
+			trace("building click");
+			if(currClickedMinion && !currClickedMinion.isAssigned)
 			{
 				clickedBuilding.workers.push(currClickedMinion);
 				currClickedMinion.isAssigned = true;
+				currClickedMinion.update();
 				currClickedMinion = null;
 			}
 		}
