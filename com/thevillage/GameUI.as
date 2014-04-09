@@ -25,6 +25,8 @@
 		
 		var resourcePanel:MovieClip;
 		
+		var gameScreen:GameScreen;
+		
 		var ind:int;
 		
 		public function GameUI(food_btn:MovieClip, villagers_btn:MovieClip, train_btn:MovieClip, build_btn:MovieClip, resource_panel:MovieClip) 
@@ -47,6 +49,15 @@
 		{
 			initBuildBtn();
 			initTrainBtn();
+			initFoodBtns();
+		}
+		
+		public function initFoodBtns()
+		{
+			resourcePanel.wheat_btn.addEventListener(MouseEvent.CLICK, addFoodClick);
+			resourcePanel.cheese_btn.addEventListener(MouseEvent.CLICK, addFoodClick);
+			resourcePanel.fish_btn.addEventListener(MouseEvent.CLICK, addFoodClick);
+			resourcePanel.meat_btn.addEventListener(MouseEvent.CLICK, addFoodClick);			
 		}
 		
 		public function initBuildBtn()
@@ -126,6 +137,27 @@
 			for (ind=0;ind<trainBtnItems.length;ind++)
 			{
 				trainBtnItems[ind].visible = trainBtnOpen;
+			}
+		}
+		
+		private function addFoodClick(e:MouseEvent)
+		{
+			switch(e.currentTarget.name)
+			{
+				case "wheat_btn":
+					gameScreen.storageManager.addFood(TileTypes.RESOURCE_WHEAT);
+					break;
+				case "cheese_btn":
+					gameScreen.storageManager.addFood(TileTypes.RESOURCE_CHEESE);
+					break;
+				case "fish_btn":
+					gameScreen.storageManager.addFood(TileTypes.RESOURCE_FISH);
+					break;
+				case "meat_btn":
+					gameScreen.storageManager.addFood(TileTypes.RESOURCE_MEAT);
+					break;
+				default:
+					break
 			}
 		}
 		

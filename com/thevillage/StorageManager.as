@@ -102,6 +102,15 @@
 			return(reservedRes);
 		}
 		
+		public function addFood(resType:int)
+		{
+			if(resources[TileTypes.resourceNameByType(resType)]>0)
+			{
+				resources[TileTypes.resourceNameByType(resType)] -= 1;
+				resources.food += GameData.getResFoodValue(resType);
+			}
+		}
+		
 		public function pickupReservation(courier:Minion)
 		{
 			for(var rsrv:int = 0; rsrv < reservations.length; rsrv++)
