@@ -23,10 +23,7 @@
 		public static const ANIMAL_START_AMOUNT:int = 100;	
 		public static const ANIMAL_BIRTH_RATE:int = 50;	
 		
-		
-		
-		
-		public static const MAX_CROPFIELD_STORAGE:int = 80;
+		public static const CROPFIELD_MAX_STORAGE:int = 80;
 		public static const MAX_HAND_CONTENT:int = 10;
 		
 		public static const FOREST_NODES:Array = [[18, 0], [19, 0], [20, 0], [21, 0], [22, 0], [23, 0], [24, 0],

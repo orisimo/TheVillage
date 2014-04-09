@@ -147,15 +147,7 @@
 		public function callAddItem (itemType:int, parent_building:Building) : Item
 		
 		{
-			
-			
-			trace("callAddItem");
-			/*
-			return (itemPlacer(itemType,getMouseTile()));
-			*/
-			
 			return null;
-			
 		}
 		
 		
@@ -536,13 +528,11 @@
 		
 		public function minionClick(clickedMinion:Minion)
 		{
-			trace("minion click");
 			currClickedMinion = clickedMinion;
 		}
 		
 		public function buildingClick(clickedBuilding:Building)
 		{
-			trace("building click");
 			if(currClickedMinion && !currClickedMinion.isAssigned)
 			{
 				clickedBuilding.workers.push(currClickedMinion);
@@ -619,7 +609,6 @@
 		
 		public function updateResources(resType:int, resAmount:int)
 		{
-			trace("gameScreen update resources: "+resAmount);
 			gameUI.updateResourcePanel(resType, resAmount);
 		}
 	}

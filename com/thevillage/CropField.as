@@ -37,6 +37,8 @@
 			
 			cache_col = col + 0;
 			cache_row = row + 0;
+			
+			resourceCap = GameData.CROPFIELD_MAX_STORAGE;
 		}
 			
 		override public function drawItem()
@@ -44,14 +46,14 @@
 			super.drawItem();
 			
 			// rally point art
-			var newSprite:TileSprite = new TileSprite(itemType, positionAvailable, true);
-			addChild(newSprite);
+			rallyArt = new TileSprite(itemType, positionAvailable, true);
+			addChild(rallyArt);
 			
 			// first crop
 			var crop_col:int = col+1;
 			var crop_row:int = row;
 			
-			newSprite = new TileSprite(itemType, positionAvailable);
+			var newSprite:TileSprite = new TileSprite(itemType, positionAvailable);
 			newSprite.x = GameData.TILE_SIZE;
 			
 			addChild(newSprite);
@@ -81,8 +83,6 @@
 		override public function update()
 		{
 			super.update();
-			
-			trace("my workers: "+workers);
 			
 			for(var ind:int = 0; ind < buildingContent.length ; ind++)
 			{
@@ -123,13 +123,11 @@
 				}
 				else if(workers.length > 0) // we have some minions to work the field
 				{
-					trace("we have workers");
 					for(var minion_ind:int = 0; minion_ind < workers.length; minion_ind++) // loop through the workers
 					{
 						var curr_minion:Minion = workers[minion_ind];
 						if(curr_minion.isIdle()) // found an available worker
 						{
-							trace("assigning");
 							crop.worker = curr_minion;
 							//update();
 							break;
@@ -142,7 +140,7 @@
 		
 		public function cropHarvested()
 		{
-			resource = resource + GameData.CROP_AMOUNT;
+			changeResourceAmount(GameData.CROP_AMOUNT);
 			gameScreen.pickupQuery(this)
 		}
 	}
