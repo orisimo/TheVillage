@@ -1,5 +1,8 @@
 ﻿package com.thevillage 
 {
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
+
 	public class StorageManager
 	{
 		var resources:Object;
@@ -37,12 +40,22 @@
 		
 		public function manageFood(e:TimerEvent)
 		{
-			resourcePush(gameScreen.currMinions.length()*GameData.VILLAGER_FOOD_COST, );
+			resourcePull(gameScreen.currMinions.length()*GameData.VILLAGER_FOOD_COST, TileTypes.RESOURCE_FOOD);
 		}
 		
-		public function resourcePull(resAmount:int, resType:int)
+		public function resourcePull(resAmount:int, resType:int):int // returns amount of available res
 		{
-			
+			if(resAmount <= resources[TileTypes.resourceNameByType(resType)])
+			{
+				resources[TileTypes.resourceNameByType(resType)] -= resAmount;
+				return resAmount;
+			}
+			else
+			{
+				var availableRes:int = resources[TileTypes.resourceNameByType(resType)];
+				resources[TileTypes.resourceNameByType(resType)] = 0;
+				return availableRes;
+			}
 		}
 		
 		public function resourcePush(resAmount:int, resType:int)
@@ -53,7 +66,7 @@
 				totalResources += amt;
 			}
 			
-			trace("storage manager res push. max res: "+maxResources+" total res: "+totalResources+" res added: "+resAmount);
+			//trace("storage manager res push. max res: "+maxResources+" total res: "+totalResources+" res added: "+resAmount);
 			
 			if(totalResources + resAmount > maxResources)
 			{
@@ -64,7 +77,7 @@
 				// put the resources here and go back to being idle
 				//trace("placing resources "+resAmount);
 				resources[TileTypes.resourceNameByType(resType)]+=resAmount;
-				trace("what i send to gamescreen - resType: "+resType+" amount: "+resources[TileTypes.resourceNameByType(resType)]);
+				//trace("what i send to gamescreen - resType: "+resType+" amount: "+resources[TileTypes.resourceNameByType(resType)]);
 				gameScreen.updateResources(resType, resources[TileTypes.resourceNameByType(resType)]);
 				//resources["wheat"]+=resAmount;
 			}
