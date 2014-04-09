@@ -58,6 +58,7 @@
 				resources[TileTypes.resourceNameByType(resType)] = 0;
 				return availableRes;
 			}
+			gameScreen.updateResources(resType, resources[TileTypes.resourceNameByType(resType)]);
 		}
 		
 		public function resourcePush(resAmount:int, resType:int)

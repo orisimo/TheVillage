@@ -18,7 +18,7 @@
 		public function Pasture (type:int, grid:Array, id:int, _gameScreen:GameScreen) 
 		{
 			super(type, grid, id, _gameScreen);
-			resType = TileTypes.RESOURCE_WHEAT;
+			resType = TileTypes.RESOURCE_CHEESE;
 		}
 		
 		override public function initBuilding()
@@ -106,20 +106,17 @@
 						pen.worker.update();
 					}
 				}
-				else if(workers.length) // we have some minions to work the field
+				else if(workers) // we have some minions to work the field
 				{
 					for(var minion_ind:int = 0; minion_ind < workers.length; minion_ind++) // loop through the workers
 					{
 						var curr_minion:Minion = workers[minion_ind];
-						if(!curr_minion.isAssigned) // found an available worker
+						if(curr_minion.isIdle()) // found an available worker
 						{
-							//trace("got a ready minion");
 							pen.worker = curr_minion;
-							pen.worker.isAssigned = true;
 							//update();
 							break;
 						}
-						
 					}
 				}
 			}
