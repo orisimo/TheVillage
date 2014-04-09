@@ -23,6 +23,8 @@
 			// set rally point
 			rally_col = col + 1;
 			rally_row = row + 2;
+			
+			trace(col, row, rally_col, rally_row);
 		}
 		
 		override public function drawItem()

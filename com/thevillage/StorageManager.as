@@ -108,6 +108,7 @@
 			{
 				resources[TileTypes.resourceNameByType(resType)] -= 1;
 				resources.food += GameData.getResFoodValue(resType);
+				gameScreen.updateResources(resType, resources[TileTypes.resourceNameByType(resType)]);
 			}
 		}
 		

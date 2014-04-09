@@ -197,7 +197,6 @@
 						distributionOrder.resource = Math.max(0, distributionOrder.resource - GameData.MAX_HAND_CONTENT);
 						
 						// set destination to storehouse
-						trace("changing targetPosition to - col: "+gameScreen.storehouse.rally_col +" row: "+gameScreen.storehouse.rally_row);
 						targetPosition = {col:  gameScreen.storehouse.rally_col, row:  gameScreen.storehouse.rally_row};
 						update();
 					}
