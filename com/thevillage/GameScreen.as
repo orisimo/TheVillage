@@ -217,11 +217,11 @@
 					break;		
 					
 				case TileTypes.MANOR_HOUSE:
-					myItem = new Storage(itemType, TileTypes.getItemGridByType(itemType), tileMap.getNewID(), this);
+					myItem = new ManorHouse(itemType, TileTypes.getItemGridByType(itemType), tileMap.getNewID(), this);
 					break;
 					
 				case TileTypes.STOREHOUSE:
-					myItem = new ManorHouse(itemType, TileTypes.getItemGridByType(itemType), tileMap.getNewID(), this);
+					myItem = new Storage(itemType, TileTypes.getItemGridByType(itemType), tileMap.getNewID(), this);
 					break;
 					
 				case TileTypes.FISHING_CHAIR:
