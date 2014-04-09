@@ -13,6 +13,7 @@
 		public static const RESOURCE_METAL:int = 7;
 		
 		public static const RESOURCE_FOOD:int = 8;
+		
 		// Map Tiles
 		public static const MAP_TILE_BASIC:int = 0;
 		
