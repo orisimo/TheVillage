@@ -12,6 +12,7 @@
 		public static const RESOURCE_STONE:int = 6;
 		public static const RESOURCE_METAL:int = 7;
 		
+		public static const RESOURCE_FOOD:int = 8;
 		// Map Tiles
 		public static const MAP_TILE_BASIC:int = 0;
 		
@@ -265,6 +266,9 @@
 					break;
 				case TileTypes.RESOURCE_MEAT:
 					return("meat");
+					break;
+				case TileTypes.RESOURCE_MEAT:
+					return("food");
 					break;
 				default:
 					return("N/A");

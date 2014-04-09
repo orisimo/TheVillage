@@ -49,7 +49,8 @@
 		public static const CROP_RESPAWN_TIME:int = 6;
 		public static const SHEEP_RESPAWN_TIME:int = 6;
 		
-		
+		public static const VILLAGER_FOOD_COST:int = 1;
+		public static const FOOD_TICK:int = 10;
 		
 		
 		public function GameData()

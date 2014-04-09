@@ -8,6 +8,8 @@
 		
 		public var reservations:Array;
 		
+		private var foodTimer:Timer;
+		
 		public function StorageManager(_gameScreen:GameScreen) 
 		{
 			gameScreen = _gameScreen;
@@ -15,6 +17,9 @@
 			reservations = [];
 			
 			maxResources = 300;
+			
+			foodTimer = new Timer(GameData.FOOD_TICK*1000, 0);
+			foodTimer.addEventListener(TimerEvent.TIMER, manageFood);
 		}
 		
 		public function initResources()
@@ -27,6 +32,17 @@
 			resources.wood = 0;
 			resources.stone = 0;
 			resources.metal = 0;
+			resources.food = 0;
+		}
+		
+		public function manageFood(e:TimerEvent)
+		{
+			resourcePush(gameScreen.currMinions.length()*GameData.VILLAGER_FOOD_COST, );
+		}
+		
+		public function resourcePull(resAmount:int, resType:int)
+		{
+			
 		}
 		
 		public function resourcePush(resAmount:int, resType:int)
