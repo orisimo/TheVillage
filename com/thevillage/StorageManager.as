@@ -23,6 +23,7 @@
 			
 			foodTimer = new Timer(GameData.FOOD_TICK*1000, 0);
 			foodTimer.addEventListener(TimerEvent.TIMER, manageFood);
+			foodTimer.start();
 		}
 		
 		public function initResources()
@@ -40,7 +41,8 @@
 		
 		public function manageFood(e:TimerEvent)
 		{
-			resourcePull(gameScreen.currMinions.length()*GameData.VILLAGER_FOOD_COST, TileTypes.RESOURCE_FOOD);
+			trace("manage food!");
+			resourcePull(gameScreen.currMinions.length*GameData.VILLAGER_FOOD_COST, TileTypes.RESOURCE_FOOD);
 		}
 		
 		public function resourcePull(resAmount:int, resType:int):int // returns amount of available res
