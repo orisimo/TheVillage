@@ -171,6 +171,9 @@
 				case CROP_FIELD:
 					return 2000;
 					break;
+				case FISHERMAN:
+					return 4000;
+					break;
 				default:
 					return 0;
 					break;
