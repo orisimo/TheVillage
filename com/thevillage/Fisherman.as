@@ -50,7 +50,7 @@
 			
 			// rally point art
 			rallyArt = new TileSprite(itemType, positionAvailable, true);
-			addChild(newSprite);
+			addChild(rallyArt);
 			
 			// first fishingChair
 			
