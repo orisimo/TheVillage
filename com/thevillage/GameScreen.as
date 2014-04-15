@@ -412,6 +412,21 @@
 						Building(item).initBuilding();					
 						
 						break;
+					
+					case TileTypes.HUNTER:
+						tileMap.setNode(item, false); // set node(s) to non-traversable
+						Building(item).allMaterialsComing = false;
+						Building(item).allMaterialsReady = false;
+						Building(item).underConstruction = true;
+						itemsContainer.setChildIndex(Building(item), 0);
+						
+						currBuildings.push(Building(item));
+						//var idleMinion:Minion = getIdleMinion();
+						//Building(item).workers.push(idleMinion);
+						
+						Building(item).initBuilding();					
+						
+						break;
 						
 					case TileTypes.STONECUTTER:
 						tileMap.setNode(item, false); // set node(s) to non-traversable

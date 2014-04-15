@@ -85,7 +85,7 @@
 			{
 				
 				var animal:Animal = wildlife.buildingContent[ind];
-				
+				trace("animalevel: "+animal.level);
 				if(animal.level < GameData.ANIMAL_BIRTH_RATE)
 				{
 					// do nothing				
