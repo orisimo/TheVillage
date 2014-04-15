@@ -55,13 +55,8 @@
 			worker.onCompleteFunc = function(){parent_pasture.penHarvested(); this.update();}
 			worker.update();
 			level = 0;
-			beingWorked = false;
-		}
-		
-		public function fireMinion()
-		{
-			worker.onCompleteFunc = function(){this.ghostMode = false;};
-			worker.isAssigned = false;
+			worker.isWorking = false;
+			worker = null;
 			beingWorked = false;
 		}
 	}
