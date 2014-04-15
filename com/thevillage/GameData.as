@@ -19,6 +19,7 @@
 		public static const METAL_AMOUNT:int = 10;
 		public static const WOOD_AMOUNT:int = 10;
 		public static const MEAT_AMOUNT:int = 10;	
+		public static const FISH_AMOUNT:int = 10;	
 		
 		public static const ANIMAL_START_AMOUNT:int = 100;	
 		public static const ANIMAL_BIRTH_RATE:int = 50;	

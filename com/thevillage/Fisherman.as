@@ -150,7 +150,7 @@
 		
 		public function fishHarvested()
 		{
-			changeResourceAmount(GameData.CROP_AMOUNT);
+			changeResourceAmount(GameData.FISH_AMOUNT);
 			gameScreen.pickupQuery(this)
 		}
 	}
