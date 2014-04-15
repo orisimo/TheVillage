@@ -119,7 +119,7 @@
 						pen.worker.update();
 					}
 				}
-				else if(workers) // we have some minions to work the field
+				else if(workers.length > 0 ) // we have some minions to work the field
 				{
 					for(var minion_ind:int = 0; minion_ind < workers.length; minion_ind++) // loop through the workers
 					{
