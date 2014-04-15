@@ -49,7 +49,7 @@
 			super.drawItem();
 			
 			// rally point art
-			var newSprite:TileSprite = new TileSprite(itemType, positionAvailable, true);
+			rallyArt = new TileSprite(itemType, positionAvailable, true);
 			addChild(newSprite);
 			
 			// first fishingChair
