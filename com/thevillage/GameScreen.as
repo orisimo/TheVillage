@@ -7,6 +7,8 @@
 	import flash.events.MouseEvent;
 	import flash.utils.Timer;
 	import flash.events.TimerEvent;
+	import flash.geom.Transform;
+	import flash.geom.ColorTransform;
 	
 	public class GameScreen extends MovieClip
 	{
@@ -72,7 +74,9 @@
 			tileMap = new TileMap();
 			tileMap.createRandomMap();
 			
+			//tileMap.transform.colorTransform = new ColorTransform(1, 1, 1, 1, -50, -50, -50, 0);
 			addChild(tileMap);
+			
 			
 			stage.addEventListener(GameEvent.ADD_ITEM_EVENT, addItemPlacer);
 			//obstaclesContainer = new MovieClip();
@@ -85,6 +89,7 @@
 			currBuildings = [];
 			
 			itemsContainer = new MovieClip();
+			//itemsContainer.transform.colorTransform = new ColorTransform(1, 1, 1, 1, -50, -50, -50, 0);
 			addChild(itemsContainer);
 			
 			forest = new Forest(NaN,null,tileMap.getNewID(), this);
@@ -154,9 +159,7 @@
 		
 		private function addItemPlacer(e:GameEvent)
 		{
-			
 			itemPlacer(int(e.eventData), getMouseTile());
-			
 		}
 		
 		
@@ -354,7 +357,7 @@
 						
 						Minion(item).initMinion();
 						break;
-						
+					
 					case TileTypes.WALL:
 						tileMap.setNode(item, false); // set node(s) to non-traversable
 						Building(item).allMaterialsComing = false;
@@ -366,7 +369,8 @@
 						//var idleMinion:Minion = getIdleMinion();
 						//Building(item).workers.push(idleMinion);
 						
-						Building(item).initBuilding();
+						//Building(item).initBuilding();
+						getIdleMinion().buildingOrder = Building(item);
 						break;
 						
 					case TileTypes.BONFIRE:
@@ -380,7 +384,8 @@
 						//var idleMinion:Minion = getIdleMinion();
 						//Building(item).workers.push(idleMinion);
 						
-						Building(item).initBuilding();
+						//Building(item).initBuilding();
+						getIdleMinion().buildingOrder = Building(item);
 						break;
 						
 					case TileTypes.CROP_FIELD:
@@ -394,7 +399,8 @@
 						//var idleMinion:Minion = getIdleMinion();
 						//Building(item).workers.push(idleMinion);
 						
-						Building(item).initBuilding();
+						//Building(item).initBuilding();
+						getIdleMinion().buildingOrder = Building(item);
 						break;
 						
 						
@@ -409,8 +415,8 @@
 						//var idleMinion:Minion = getIdleMinion();
 						//Building(item).workers.push(idleMinion);
 						
-						Building(item).initBuilding();					
-						
+						//Building(item).initBuilding();					
+						getIdleMinion().buildingOrder = Building(item);
 						break;
 					
 					case TileTypes.HUNTER:
@@ -424,8 +430,8 @@
 						//var idleMinion:Minion = getIdleMinion();
 						//Building(item).workers.push(idleMinion);
 						
-						Building(item).initBuilding();					
-						
+						//Building(item).initBuilding();					
+						getIdleMinion().buildingOrder = Building(item);
 						break;
 						
 					case TileTypes.STONECUTTER:
@@ -439,8 +445,8 @@
 						//var idleMinion:Minion = getIdleMinion();
 						//Building(item).workers.push(idleMinion);
 						
-						Building(item).initBuilding();					
-						
+						//Building(item).initBuilding();					
+						getIdleMinion().buildingOrder = Building(item);
 						break;
 						
 						
@@ -455,7 +461,8 @@
 						//var idleMinion:Minion = getIdleMinion();
 						//Building(item).workers.push(idleMinion);
 						
-						Building(item).initBuilding();
+						//Building(item).initBuilding();
+						getIdleMinion().buildingOrder = Building(item);
 						break;
 						
 						
@@ -470,11 +477,12 @@
 						//var idleMinion:Minion = getIdleMinion();
 						//Building(item).workers.push(idleMinion);
 						
-						Building(item).initBuilding();
+						//Building(item).initBuilding();
 						var fishingChair:FishingChair = FishingChair(itemPlacer(17, getMouseTile() ,Building(item)));
 						//dragItem(fishingChair);
 						Building(item).buildingContent.push(fishingChair);
-				
+						
+						getIdleMinion().buildingOrder = Building(item);
 						break;
 						
 					case TileTypes.BLACKSMITH:
@@ -488,11 +496,12 @@
 						//var idleMinion:Minion = getIdleMinion();
 						//Building(item).workers.push(idleMinion);
 						
-						Building(item).initBuilding();
+						//Building(item).initBuilding();
 						var metalShaft:MetalShaft = MetalShaft(itemPlacer(TileTypes.METAL_SHAFT, getMouseTile() ,Building(item)));
 						//dragItem(fishingChair);
 						Building(item).buildingContent.push(metalShaft);
-				
+						
+						getIdleMinion().buildingOrder = Building(item);
 						break;
 						
 					case TileTypes.MANOR_HOUSE:
@@ -506,7 +515,8 @@
 						//var idleMinion:Minion = getIdleMinion();
 						//Building(item).workers.push(idleMinion);
 						
-						Building(item).initBuilding();
+						//Building(item).initBuilding();
+						getIdleMinion().buildingOrder = Building(item);
 						break;
 						
 					case TileTypes.STOREHOUSE:
@@ -520,8 +530,9 @@
 						//var idleMinion:Minion = getIdleMinion();
 						//Building(item).workers.push(idleMinion);
 						
-						Building(item).initBuilding();
+						//Building(item).initBuilding();
 						storehouse = Building(item);
+						getIdleMinion().buildingOrder = Building(item);
 						break;
 						
 					default:

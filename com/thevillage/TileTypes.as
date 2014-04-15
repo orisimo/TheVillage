@@ -145,6 +145,73 @@
 			}
 		}
 		
+		public static function getConstructionMaterials(itemType:int):Array
+		{
+			// inputs building type and outputs building starter grid
+			switch(itemType)
+			{
+				// Buildings
+				
+				case MANOR_HOUSE:
+					return [80,0,0];
+					break;
+				case CROP_FIELD:
+					return [80,0,0];
+					break;
+				case STOREHOUSE:
+					return [80,0,0];
+					break;
+				case LUMBERMILL:
+					return [80,0,0];
+					break;
+				case STONECUTTER:
+					return [80,0,0];
+					break;
+				case BLACKSMITH:
+					return [80,0,0];
+					break;
+				case HUNTER:
+					return [80,0,0];
+					break;
+				case FISHERMAN:
+					return [80,0,0];
+					break;
+				case FISHING_CHAIR:
+					return [80,0,0];
+					break;
+				case PASTURE:
+					return [80,0,0];
+					break;
+				case INN:
+					return [80,0,0];
+					break;
+				case BONFIRE:
+					return [80,0,0];
+					break;
+				case WALL:
+					return [80,0,0];
+					break;
+				case ARCHER_TURRET:
+					return [80,0,0];
+					break;
+				case GUARD_HOUSE:
+					return [80,0,0];
+					break;
+				case SPIKED_HOLE:
+					return [80,0,0];
+					break;
+				case GATEHOUSE:
+					return [80,0,0];
+					break;
+				case FISHING_CHAIR:
+					return [80,0,0]; 
+					break;
+				default:
+					return [80,0,0];
+					break;
+			}
+		}
+		
 		public static function getSpeedByType(itemType:int):Number
 		{
 			// inputs building type and outputs building starter grid

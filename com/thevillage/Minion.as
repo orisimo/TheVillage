@@ -149,17 +149,31 @@
 				}
 				else // materials needed for construction
 				{
-					var materialsInStorage:Boolean = gameScreen.materialsQueue(buildingOrder, this); // this function checks if there are any materials still needed for this building in the storage, and if so reserves them with this minion's ID (the storage will transfer this to the minion when it arrives)
-					if(materialsInStorage) 
+					for(var conInd:int; conInd < buildingOrder.constructionMat.length; conInd++)
 					{
-						// go to storage
-						// AND tell building you will get these materials
-						// AND reserve resources at storage
-					}
-					else
-					{
-						// go chop something
-						// AND tell building you will get these materials
+						if(buildingOrder.constructionMat[conInd]>0)
+						{
+							if(gameScreen.storageManager.resourceQuery(int(5+conInd),gameData.MAX_HAND_CONTENT,this))
+							{
+								buildingOrder.constructionMat[conInd] -= GameData.MAX_HAND_CONTENT;
+								targetPosition = {col:  gameScreen.storehouse.rally_col, row:  gameScreen.storehouse.rally_row};
+								update();
+							}
+							else
+							{
+								switch(conInd)
+								{
+									case 0: //wood
+										break;
+									case 1: //stone
+										break;
+									case 2: //metal
+										break;
+									default :
+										break;
+								}
+							}
+						}
 					}
 				}
 			}

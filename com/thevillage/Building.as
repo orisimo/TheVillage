@@ -27,6 +27,7 @@
 		
 		public var rallyArt:TileSprite;
 		
+		public var constructionMat:Array;
 		public var allMaterialsComing:Boolean = true;
 		public var allMaterialsReady:Boolean = true;
 		public var underConstruction:Boolean;
@@ -48,6 +49,8 @@
 			gameScreen = _gameScreen;
 			
 			super(type, grid, id);
+			
+			constructionMat = GameData.getConstructionMaterials(itemType);
 			
 			trace("building" + this);
 			
