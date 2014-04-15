@@ -102,7 +102,20 @@
 					}
 					else if(!pen.worker.targetPosition) // the minion isn't on the way (and not in the pasture location)
 					{
-						pen.worker.targetPosition = {col: rally_col, row: rally_row};
+						if(pen.worker.ghostMode) // already assigned to this building probably
+						{
+							pen.worker.targetPosition = {col: cache_col, row: cache_row};
+						}
+						else if (pen.worker.col == rally_col && pen.worker.row == rally_row) // just got to the rally point after being attached to this penfield
+						{
+							pen.worker.ghostMode = true;
+							pen.worker.targetPosition = {col: cache_col, row: cache_row};
+						}
+						else
+						{
+							pen.worker.targetPosition = {col: rally_col, row: rally_row};
+						}
+						
 						pen.worker.update();
 					}
 				}
