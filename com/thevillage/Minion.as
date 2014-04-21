@@ -72,11 +72,16 @@
 		{
 			super.update();
 			
-			//trace("minion update");
+			trace("minion update");
 			//trace("targetPosition: "+targetPosition);
-			
-			if(targetPosition)
+			if(isMoving)
 			{
+				trace("isMoving");
+				// do nothing
+			}
+			else if(targetPosition)
+			{
+				trace("targetPosition");
 				// build a path
 				if(!path)
 				{
@@ -127,9 +132,28 @@
 			else if(buildingOrder) // buildingOrder holds a Building object (the target building) and will give us access to some variables from the building
 			{
 				trace("minion building order")
-				if(buildingOrder.allMaterialsComing) // all materials coming
+				trace("handsContent: "+handsContent)
+				if(handsContent)
 				{
-					if( buildingOrder.col == col && buildingOrder.row == row) // at building location
+					trace("i gots something in me hands!");
+					if(col == buildingOrder.rally_col && row == buildingOrder.rally_row)
+					{
+						trace("i'm in the friggin construction lot");
+						buildingOrder.constructionMaterialsSupply(handsContent);
+						handsContent = null;
+						isMoving = false;
+						update();
+					}
+					else
+					{
+						trace("blimey! i need to get back to the construction lot!");
+						targetPosition = {col: buildingOrder.rally_col, row: buildingOrder.rally_row};
+						update();
+					}
+				}
+				else if(buildingOrder.allMaterialsComing) // all materials coming
+				{
+					if( buildingOrder.rally_col == col && buildingOrder.rally_row == row) // at building location
 					{
 						if(buildingOrder.allMaterialsReady) // all materials at location
 						{
@@ -142,8 +166,7 @@
 					}
 					else
 					{
-						// go to building
-						targetPosition = {col: buildingOrder.col, row: buildingOrder.row};
+						targetPosition = {col: buildingOrder.rally_col, row: buildingOrder.rally_row};
 						update();
 					}
 					
@@ -154,7 +177,7 @@
 					{
 						if(buildingOrder.constructionMat[conInd]>0)
 						{
-							if(gameScreen.storageManager.resourceQuery(int(5+conInd),GameData.MAX_HAND_CONTENT,this))
+							if(gameScreen.storageManager.resourceQuery(int(5+conInd),GameData.MAX_HAND_CONTENT,this)) // materials in storage
 							{
 								buildingOrder.constructionMat[conInd] -= GameData.MAX_HAND_CONTENT;
 								targetPosition = {col:  gameScreen.storehouse.rally_col, row:  gameScreen.storehouse.rally_row};
@@ -164,7 +187,18 @@
 							{
 								switch(conInd)
 								{
-									case 0: //wood
+									case 0:
+										for(var ind:int = 0; ind < gameScreen.forest.buildingContent.length ; ind++) // loop throught forest
+										{
+											var tree:ForestTree = gameScreen.forest.buildingContent[ind];
+											
+											if(tree.level >= GameData.TREE_RESPAWN_TIME && !tree.beingWorked)
+											{
+												tree.worker = this;
+												tree.startWork();
+											}
+										}
+				
 										break;
 									case 1: //stone
 										break;
@@ -241,9 +275,9 @@
 			}
 			else
 			{
-				myOnCompleteFunc = update;
+				myOnCompleteFunc = function() {isMoving = false; update()};
 			}
-			Tweener.addTween(this, {time: travelTime, x: targetX, y: targetY, transition: "linear", onComplete:myOnCompleteFunc});
+			Tweener.addTween(this, {time: travelTime, x: targetX, y: targetY, transition: "linear", onComplete: myOnCompleteFunc, onCompleteScope: this});
 		}
 		
 		override public function drawItem()
