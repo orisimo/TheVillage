@@ -126,6 +126,7 @@
 			}
 			else if(buildingOrder) // buildingOrder holds a Building object (the target building) and will give us access to some variables from the building
 			{
+				trace("minion building order")
 				if(buildingOrder.allMaterialsComing) // all materials coming
 				{
 					if( buildingOrder.col == col && buildingOrder.row == row) // at building location
@@ -153,7 +154,7 @@
 					{
 						if(buildingOrder.constructionMat[conInd]>0)
 						{
-							if(gameScreen.storageManager.resourceQuery(int(5+conInd),gameData.MAX_HAND_CONTENT,this))
+							if(gameScreen.storageManager.resourceQuery(int(5+conInd),GameData.MAX_HAND_CONTENT,this))
 							{
 								buildingOrder.constructionMat[conInd] -= GameData.MAX_HAND_CONTENT;
 								targetPosition = {col:  gameScreen.storehouse.rally_col, row:  gameScreen.storehouse.rally_row};

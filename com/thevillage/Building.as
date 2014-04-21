@@ -50,15 +50,12 @@
 			
 			super(type, grid, id);
 			
-			constructionMat = GameData.getConstructionMaterials(itemType);
+			constructionMat = TileTypes.getConstructionMaterials(itemType);
 			
-			trace("building" + this);
+			addEventListener(MouseEvent.CLICK, onBuildingClick)
 			
 			buildingTimer = new Timer(GameData.BUILDING_TICK);
 			buildingTimer.addEventListener(TimerEvent.TIMER, timerUpdate);
-			
-			
-			trace(gameScreen);
 			
 			workers = [];
 			buildingContent = [];
@@ -73,8 +70,6 @@
 		{
 			//trace("init building");
 			buildingTimer.start();
-			
-			addEventListener(MouseEvent.CLICK, onBuildingClick)
 		}
 		
 		private function onBuildingClick(e:MouseEvent)

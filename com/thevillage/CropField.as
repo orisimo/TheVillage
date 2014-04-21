@@ -19,6 +19,12 @@
 		{
 			super(type, grid, id, _gameScreen);
 			resType = TileTypes.RESOURCE_WHEAT;
+			
+			rally_col = col + 0;
+			rally_row = row + 1;
+			
+			cache_col = col + 0;
+			cache_row = row + 0;
 		}
 		
 		override public function initBuilding()
@@ -32,12 +38,6 @@
 			resource = 0;
 			
 			// set rally point
-			rally_col = col + 0;
-			rally_row = row + 1;
-			
-			cache_col = col + 0;
-			cache_row = row + 0;
-			
 			resourceCap = GameData.CROPFIELD_MAX_STORAGE;
 		}
 		

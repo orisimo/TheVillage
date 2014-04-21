@@ -346,193 +346,74 @@
 				
 				dragTarget = null;
 				
+				if(item.itemType == TileTypes.VILLAGER)
+				{
+					Minion(item).drawItem();
+					Minion(item).update();
+					itemsContainer.setChildIndex(Minion(item), itemsContainer.numChildren-1);
+					currMinions.push(Minion(item));
+					
+					Minion(item).initMinion();
+				}
+				else
+				{
+					tileMap.setNode(item, false); // set node(s) to non-traversable
+					Building(item).allMaterialsComing = false;
+					Building(item).allMaterialsReady = false;
+					Building(item).underConstruction = true;
+					itemsContainer.setChildIndex(Building(item), 0);
+					
+					currBuildings.push(Building(item));
+
+					var idleMinion:Minion = getIdleMinion();
+					if(idleMinion != null)
+					{
+						idleMinion.buildingOrder = Building(item);
+						idleMinion.update();
+					}
+				}
 				
 				switch (item.itemType)
 				{
-					case TileTypes.VILLAGER: // villager
-						Minion(item).drawItem();
-						Minion(item).update();
-						itemsContainer.setChildIndex(Minion(item), itemsContainer.numChildren-1);
-						currMinions.push(Minion(item));
-						
-						Minion(item).initMinion();
-						break;
-					
 					case TileTypes.WALL:
-						tileMap.setNode(item, false); // set node(s) to non-traversable
-						Building(item).allMaterialsComing = false;
-						Building(item).allMaterialsReady = false;
-						Building(item).underConstruction = true;
-						itemsContainer.setChildIndex(Building(item), 0);
-						
-						currBuildings.push(Building(item));
-						//var idleMinion:Minion = getIdleMinion();
-						//Building(item).workers.push(idleMinion);
-						
-						//Building(item).initBuilding();
-						getIdleMinion().buildingOrder = Building(item);
 						break;
 						
 					case TileTypes.BONFIRE:
-						tileMap.setNode(item, false); // set node(s) to non-traversable
-						Building(item).allMaterialsComing = false;
-						Building(item).allMaterialsReady = false;
-						Building(item).underConstruction = true;
-						itemsContainer.setChildIndex(Building(item), 0);
-						
-						currBuildings.push(Building(item));
-						//var idleMinion:Minion = getIdleMinion();
-						//Building(item).workers.push(idleMinion);
-						
-						//Building(item).initBuilding();
-						getIdleMinion().buildingOrder = Building(item);
 						break;
 						
 					case TileTypes.CROP_FIELD:
-						tileMap.setNode(item, false); // set node(s) to non-traversable
-						Building(item).allMaterialsComing = false;
-						Building(item).allMaterialsReady = false;
-						Building(item).underConstruction = true;
-						itemsContainer.setChildIndex(Building(item), 0);
-						
-						currBuildings.push(Building(item));
-						//var idleMinion:Minion = getIdleMinion();
-						//Building(item).workers.push(idleMinion);
-						
-						//Building(item).initBuilding();
-						getIdleMinion().buildingOrder = Building(item);
 						break;
 						
-						
 					case TileTypes.LUMBERMILL:
-						tileMap.setNode(item, false); // set node(s) to non-traversable
-						Building(item).allMaterialsComing = false;
-						Building(item).allMaterialsReady = false;
-						Building(item).underConstruction = true;
-						itemsContainer.setChildIndex(Building(item), 0);
-						
-						currBuildings.push(Building(item));
-						//var idleMinion:Minion = getIdleMinion();
-						//Building(item).workers.push(idleMinion);
-						
-						//Building(item).initBuilding();					
-						getIdleMinion().buildingOrder = Building(item);
 						break;
 					
 					case TileTypes.HUNTER:
-						tileMap.setNode(item, false); // set node(s) to non-traversable
-						Building(item).allMaterialsComing = false;
-						Building(item).allMaterialsReady = false;
-						Building(item).underConstruction = true;
-						itemsContainer.setChildIndex(Building(item), 0);
-						
-						currBuildings.push(Building(item));
-						//var idleMinion:Minion = getIdleMinion();
-						//Building(item).workers.push(idleMinion);
-						
-						//Building(item).initBuilding();					
-						getIdleMinion().buildingOrder = Building(item);
 						break;
 						
 					case TileTypes.STONECUTTER:
-						tileMap.setNode(item, false); // set node(s) to non-traversable
-						Building(item).allMaterialsComing = false;
-						Building(item).allMaterialsReady = false;
-						Building(item).underConstruction = true;
-						itemsContainer.setChildIndex(Building(item), 0);
-						
-						currBuildings.push(Building(item));
-						//var idleMinion:Minion = getIdleMinion();
-						//Building(item).workers.push(idleMinion);
-						
-						//Building(item).initBuilding();					
-						getIdleMinion().buildingOrder = Building(item);
 						break;
 						
 						
 					case TileTypes.PASTURE:
-						tileMap.setNode(item, false); // set node(s) to non-traversable
-						Building(item).allMaterialsComing = false;
-						Building(item).allMaterialsReady = false;
-						Building(item).underConstruction = true;
-						itemsContainer.setChildIndex(Building(item), 0);
-						
-						currBuildings.push(Building(item));
-						//var idleMinion:Minion = getIdleMinion();
-						//Building(item).workers.push(idleMinion);
-						
-						//Building(item).initBuilding();
-						getIdleMinion().buildingOrder = Building(item);
 						break;
 						
-						
 					case TileTypes.FISHERMAN:
-						tileMap.setNode(item, false); // set node(s) to non-traversable
-						Building(item).allMaterialsComing = false;
-						Building(item).allMaterialsReady = false;
-						Building(item).underConstruction = true;
-						itemsContainer.setChildIndex(Building(item), 0);
-						
-						currBuildings.push(Building(item));
-						//var idleMinion:Minion = getIdleMinion();
-						//Building(item).workers.push(idleMinion);
-						
-						//Building(item).initBuilding();
 						var fishingChair:FishingChair = FishingChair(itemPlacer(17, getMouseTile() ,Building(item)));
-						//dragItem(fishingChair);
 						Building(item).buildingContent.push(fishingChair);
 						
-						getIdleMinion().buildingOrder = Building(item);
 						break;
 						
 					case TileTypes.BLACKSMITH:
-						tileMap.setNode(item, false); // set node(s) to non-traversable
-						Building(item).allMaterialsComing = false;
-						Building(item).allMaterialsReady = false;
-						Building(item).underConstruction = true;
-						itemsContainer.setChildIndex(Building(item), 0);
-						
-						currBuildings.push(Building(item));
-						//var idleMinion:Minion = getIdleMinion();
-						//Building(item).workers.push(idleMinion);
-						
-						//Building(item).initBuilding();
 						var metalShaft:MetalShaft = MetalShaft(itemPlacer(TileTypes.METAL_SHAFT, getMouseTile() ,Building(item)));
-						//dragItem(fishingChair);
 						Building(item).buildingContent.push(metalShaft);
 						
-						getIdleMinion().buildingOrder = Building(item);
 						break;
 						
 					case TileTypes.MANOR_HOUSE:
-						tileMap.setNode(item, false); // set node(s) to non-traversable
-						Building(item).allMaterialsComing = false;
-						Building(item).allMaterialsReady = false;
-						Building(item).underConstruction = true;
-						itemsContainer.setChildIndex(Building(item), 0);
-						
-						currBuildings.push(Building(item));
-						//var idleMinion:Minion = getIdleMinion();
-						//Building(item).workers.push(idleMinion);
-						
-						//Building(item).initBuilding();
-						getIdleMinion().buildingOrder = Building(item);
 						break;
 						
 					case TileTypes.STOREHOUSE:
-						tileMap.setNode(item, false); // set node(s) to non-traversable
-						Building(item).allMaterialsComing = false;
-						Building(item).allMaterialsReady = false;
-						Building(item).underConstruction = true;
-						itemsContainer.setChildIndex(Building(item), 0);
-						
-						currBuildings.push(Building(item));
-						//var idleMinion:Minion = getIdleMinion();
-						//Building(item).workers.push(idleMinion);
-						
-						//Building(item).initBuilding();
 						storehouse = Building(item);
-						getIdleMinion().buildingOrder = Building(item);
 						break;
 						
 					default:
@@ -540,8 +421,6 @@
 				}
 				
 				dispatchEvent(new GameEvent(GameEvent.PLACE_ITEM_EVENT, item.itemType, true));
-				
-				
 			}
 			else
 			{
@@ -573,14 +452,24 @@
 		public function minionClick(clickedMinion:Minion)
 		{
 			currClickedMinion = clickedMinion;
+			trace("minionClick");
 		}
 		
 		public function buildingClick(clickedBuilding:Building)
 		{
+			trace("buildingClick");
+			
 			if(currClickedMinion && !currClickedMinion.isAssigned)
 			{
-				clickedBuilding.workers.push(currClickedMinion);
-				currClickedMinion.isAssigned = true;
+				if(clickedBuilding.underConstruction)
+				{
+					currClickedMinion.buildingOrder = clickedBuilding;
+				}
+				else
+				{
+					clickedBuilding.workers.push(currClickedMinion);
+					currClickedMinion.isAssigned = true;
+				}
 				currClickedMinion.update();
 				currClickedMinion = null;
 			}
