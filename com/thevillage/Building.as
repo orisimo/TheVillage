@@ -88,5 +88,10 @@
 			resource += delta_res;
 			rallyArt.art.gotoAndStop(Math.ceil(resource/resourceCap*rallyArt.art.totalFrames));
 		}
+		
+		public function constructionMaterialsSupply(handsContent:Object)
+		{
+			// add the art for the supplied goods on the construction site.
+		}
 	}
 }

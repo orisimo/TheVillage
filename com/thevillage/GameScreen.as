@@ -364,7 +364,13 @@
 					itemsContainer.setChildIndex(Building(item), 0);
 					
 					currBuildings.push(Building(item));
-
+					
+					Building(item).cache_col += Building(item).col;
+					Building(item).cache_row += Building(item).row;
+					
+					Building(item).rally_col += Building(item).col;
+					Building(item).rally_row += Building(item).row;
+					
 					var idleMinion:Minion = getIdleMinion();
 					if(idleMinion != null)
 					{
