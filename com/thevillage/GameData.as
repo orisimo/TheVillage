@@ -11,6 +11,7 @@
 		
 		public static const TICK_TIME:Number = 500; // miliseconds
 		public static const BUILDING_TICK:Number = 500; // miliseconds
+		public static const CONSTRUCTION_TICK:Number = 1000; // miliseconds
 		public static const DIAGONAL:Number = Math.sqrt(2);
 		
 		public static const CROP_AMOUNT:int = 10;
@@ -50,8 +51,9 @@
 																				  [2, 4], [1, 4], [0, 4]];
 																					  
 																					  
-		public static const TREE_RESPAWN_TIME:int = 300;
-		public static const STONE_RESPAWN_TIME:int = 5;
+		public static const TREE_RESPAWN_TIME:int = 5;
+		public static const STONE_RESPAWN_TIME:int = 300;
+		public static const SHAFT_RESPAWN_TIME:int = 600;
 		
 		public static const CROP_RESPAWN_TIME:int = 6;
 		public static const SHEEP_RESPAWN_TIME:int = 6;

@@ -31,6 +31,8 @@
 		
 		public var parent_object:MovieClip;
 		
+		private var ind:int;
+		
 		public function Minion(type:int, grid:Array, id:int, _tileMap:TileMap, _gameScreen:GameScreen) 
 		{
 			isMoving = false;
@@ -131,8 +133,14 @@
 			}
 			else if(buildingOrder) // buildingOrder holds a Building object (the target building) and will give us access to some variables from the building
 			{
+				buildingOrder.pushMinion(this);
+				
 				trace("minion building order")
 				trace("handsContent: "+handsContent)
+				if(isWorking) // currently mining resources for constructions. don't interrupt
+				{
+					
+				}
 				if(handsContent)
 				{
 					trace("i gots something in me hands!");
@@ -155,14 +163,7 @@
 				{
 					if( buildingOrder.rally_col == col && buildingOrder.rally_row == row) // at building location
 					{
-						if(buildingOrder.allMaterialsReady) // all materials at location
-						{
-							// start building
-						}
-						else 
-						{
-							// wait for materialsReady (add listener?)
-						}
+						isWorking = true;
 					}
 					else
 					{
@@ -173,13 +174,13 @@
 				}
 				else // materials needed for construction
 				{
-					for(var conInd:int; conInd < buildingOrder.constructionMat.length; conInd++)
+					for(var conInd:int; conInd < buildingOrder.constructionQuota.length; conInd++)
 					{
-						if(buildingOrder.constructionMat[conInd]>0)
+						if(buildingOrder.constructionQuota[conInd]>0)
 						{
 							if(gameScreen.storageManager.resourceQuery(int(5+conInd),GameData.MAX_HAND_CONTENT,this)) // materials in storage
 							{
-								buildingOrder.constructionMat[conInd] -= GameData.MAX_HAND_CONTENT;
+								buildingOrder.constructionQuota[conInd] -= GameData.MAX_HAND_CONTENT;
 								targetPosition = {col:  gameScreen.storehouse.rally_col, row:  gameScreen.storehouse.rally_row};
 								update();
 							}
@@ -188,7 +189,7 @@
 								switch(conInd)
 								{
 									case 0:
-										for(var ind:int = 0; ind < gameScreen.forest.buildingContent.length ; ind++) // loop throught forest
+										for(ind = 0; ind < gameScreen.forest.buildingContent.length ; ind++) // loop throught forest
 										{
 											var tree:ForestTree = gameScreen.forest.buildingContent[ind];
 											
@@ -196,19 +197,50 @@
 											{
 												tree.worker = this;
 												tree.startWork();
+												buildingOrder.constructionQuota[0] -= GameData.MAX_HAND_CONTENT;
+												break;
 											}
 										}
-				
 										break;
 									case 1: //stone
+										for(ind = 0; ind < gameScreen.quarry.buildingContent.length ; ind++) // loop throught forest
+										{
+											var stone:QuarryStone = gameScreen.quarry.buildingContent[ind];
+											
+											if(stone.level > 0 && !stone.beingWorked)
+											{
+												stone.worker = this;
+												stone.startWork();
+												buildingOrder.constructionQuota[1] -= GameData.MAX_HAND_CONTENT;
+												break;
+											}
+										}
 										break;
 									case 2: //metal
+										for(var ind:int = 0; ind < gameScreen.mountain.buildingContent.length ; ind++) // loop throught mountain
+										{
+											var shaft:MountainShaft = gameScreen.mountain.buildingContent[ind];
+											
+											if(shaft.level > 0 && !shaft.beingWorked)
+											{
+												shaft.worker = this;
+												shaft.startWork();
+												buildingOrder.constructionQuota[2] -= GameData.MAX_HAND_CONTENT;
+												break;
+											}
+										}
 										break;
 									default :
 										break;
 								}
 							}
 						}
+					}
+					trace("constructionQuota: "+buildingOrder.constructionQuota);
+					if(buildingOrder.constructionQuota[0] == 0 && buildingOrder.constructionQuota[1] == 0 && buildingOrder.constructionQuota[2] == 0)
+					{
+						trace("all materials coming");
+						buildingOrder.allMaterialsComing = true;
 					}
 				}
 			}

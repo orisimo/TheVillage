@@ -156,7 +156,7 @@
 					return [80,0,0];
 					break;
 				case CROP_FIELD:
-					return [80,0,0];
+					return [10,0,0];
 					break;
 				case STOREHOUSE:
 					return [80,0,0];
@@ -241,8 +241,29 @@
 				case FISHERMAN:
 					return 4000;
 					break;
+				case TREE:
+					return 1000;
 				default:
-					return 0;
+					return 1000;
+					break;
+			}
+		}
+		
+		public static function getConstUnitsByType(itemType:int):int
+		{
+			// inputs building type and outputs work time in miliseconds
+			switch(itemType)
+			{
+				// Buildings
+				
+				case CROP_FIELD:
+					return 2;
+					break;
+				case FISHERMAN:
+					return 10;
+					break;
+				default:
+					return 10;
 					break;
 			}
 		}

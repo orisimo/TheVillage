@@ -39,7 +39,7 @@
 		public var forest:Forest;
 		public var wildlife:Wildlife;
 		public var quarry:Quarry;
-		
+		public var mountain:Mountain;
 		
 		public var minionCapacity:int = 10;
 		

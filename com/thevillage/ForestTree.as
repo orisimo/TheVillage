@@ -11,13 +11,12 @@
 		public var col:int;
 		
 		public var beingWorked:Boolean;		
-		public var worker:Minion;		
-		public var parent_building:Building;
+		public var worker:Minion;
 		public var forest:Forest;
 		public var workTimer:Timer;
 		public var art:TileSprite;
 		
-		
+		public var parent_building:Building;
 		
 		public function ForestTree (_col:int, _row:int, forest:Forest) 
 		{			
@@ -31,7 +30,6 @@
 			addChild(art);
 			
 			art.art.gotoAndStop(art.art.totalFrames);
-			
 			
 			workTimer = new Timer(TileTypes.getWorkTimeByType(forest.itemType), 1);
 			workTimer.addEventListener(TimerEvent.TIMER_COMPLETE, finishWork);
@@ -47,6 +45,7 @@
 			//worker.ghostMode = true;
 			worker.targetPosition = {col: col, row: row};
 			worker.parent_object = this;
+			worker.isWorking = true;
 			worker.onCompleteFunc = function() {trace(this); this.parent_object.workTimer.start(); this.update();};
 			worker.update();
 			//workTimer.start();
@@ -64,10 +63,10 @@
 				parent_building = worker.buildingOrder;
 			}
 			worker.isMoving = false;
-			worker.targetPosition = {col: parent_building.cache_col, row: parent_building.cache_row};
-			trace("worker target pos: "+worker.targetPosition.col, worker.targetPosition.row);
+			//trace("worker target pos: "+worker.targetPosition.col, worker.targetPosition.row);
 			if(parent_building.itemType == TileTypes.LUMBERMILL && !parent_building.underConstruction)
 			{
+				worker.targetPosition = {col: parent_building.cache_col, row: parent_building.cache_row};
 				worker.onCompleteFunc = function(){Lumbermill(parent_building).treeHarvested(); this.isMoving = false; this.update();}
 			}
 			else // probably construction materials
