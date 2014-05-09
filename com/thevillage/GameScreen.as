@@ -1,5 +1,4 @@
-﻿
-﻿package com.thevillage
+﻿﻿package com.thevillage
 {
 	import flash.display.MovieClip;
 	import flash.events.Event;
@@ -10,12 +9,14 @@
 	import flash.geom.Transform;
 	import flash.geom.ColorTransform;
 	
+	import com.thevillage.Building.*;
+	
 	public class GameScreen extends MovieClip
 	{
 		var dragTarget:Item;
 		
 		var dragItemPosition:Array
-		var itemsContainer:MovieClip;
+		public var itemsContainer:MovieClip;
 		
 		var currMinions:Array;
 		var currBuildings:Array;
@@ -150,13 +151,6 @@
 			//trace("tick "+gameTimer.currentCount);
 		}
 		
-		public function callAddItem (itemType:int, parent_building:Building) : Item
-		
-		{
-			return null;
-		}
-		
-		
 		private function addItemPlacer(e:GameEvent)
 		{
 			itemPlacer(int(e.eventData), getMouseTile());
@@ -272,7 +266,7 @@
 				dragTarget.y = dragTarget.row * GameData.TILE_SIZE;
 				
 				dragTarget.positionAvailable = tileMap.verifyPosition({row:dragTarget.row, col:dragTarget.col}, dragTarget.itemGrid);
-				//dragTarget.drawItem();
+				dragTarget.drawItem();
 			}
 		}
 		
@@ -355,7 +349,7 @@
 					
 					Minion(item).initMinion();
 				}
-				else
+				else // building
 				{
 					tileMap.setNode(item, false); // set node(s) to non-traversable
 					Building(item).allMaterialsComing = false;
@@ -370,6 +364,8 @@
 					
 					Building(item).rally_col += Building(item).col;
 					Building(item).rally_row += Building(item).row;
+					
+					Building(item).isPlaced = true;
 					
 					var idleMinion:Minion = getIdleMinion();
 					if(idleMinion != null)

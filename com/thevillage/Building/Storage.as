@@ -1,8 +1,9 @@
-﻿package com.thevillage 
+﻿package com.thevillage.Building
 {
 	import flash.display.MovieClip;
 	import flash.geom.Point;
 	import com.thevillage.GameData;
+	import com.thevillage.GameScreen;
 	import com.thevillage.TileSprite;
 	import com.thevillage.TileTypes;
 	import com.thevillage.Minion;
@@ -23,15 +24,6 @@
 			// set rally point
 			rally_col = col + 1;
 			rally_row = row + 2;
-		}
-		
-		override public function drawItem()
-		{
-			super.drawItem();
-			
-			// rally point art
-			var newSprite:TileSprite = new TileSprite(itemType, positionAvailable, true);
-			addChild(newSprite);
 		}
 		
 		override public function update()

@@ -1,4 +1,6 @@
-﻿package com.thevillage {
+﻿package com.thevillage.Building
+{
+	import com.thevillage.*;
 	
 	public class Wildlife extends Building
 	{

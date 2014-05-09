@@ -4,6 +4,8 @@
 	import flash.events.TimerEvent;
 	import flash.display.MovieClip;
 	
+	import com.thevillage.Building.*
+	
 	public class MountainShaft extends MovieClip
 	{
 		public var level:int;

@@ -3,6 +3,7 @@
 	import flash.utils.Timer;
 	import flash.events.TimerEvent;
 	import flash.display.MovieClip;
+	import com.thevillage.Building.*;
 	
 	public class QuarryStone extends MovieClip
 	{

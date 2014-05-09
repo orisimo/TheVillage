@@ -2,7 +2,7 @@
 	
 	import flash.display.MovieClip;
 	import com.thevillage.GameUI;
-	import com.thevillage.Building;
+	import com.thevillage.Building.Building;
 	import com.thevillage.GameScreen;
 	import flash.geom.Point;
 	

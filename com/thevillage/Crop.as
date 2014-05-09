@@ -4,6 +4,9 @@
 	import flash.events.TimerEvent;
 	import flash.display.MovieClip;
 	
+	import com.thevillage.*;
+	import com.thevillage.Building.*;
+	
 	public class Crop extends MovieClip
 	{
 		public var level:int;

@@ -1,6 +1,6 @@
 ﻿package com.thevillage 
 {
-	import com.thevillage.Building;
+	import com.thevillage.Building.*;
 	import com.thevillage.GameEvent;
 	
 	import com.untoldentertainment.pathfinding.Pathfinder;
