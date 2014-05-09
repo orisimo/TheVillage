@@ -38,20 +38,13 @@
 		
 		public function Item(type:int, grid:Array, id:int) 
 		{
-			
-			
-			
 			itemType = type;
-			
 			
 			itemGrid = grid;
 			itemID = id;
 			spriteArray = [];
 			
-			
-			
 			drawItem();
-			
 		}
 		
 		public function update()

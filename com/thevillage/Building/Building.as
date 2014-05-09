@@ -84,6 +84,8 @@
 		public function initBuilding()
 		{
 			//trace("init building");
+			underConstruction = false;
+			drawItem();
 			buildingTimer.start();
 		}
 		

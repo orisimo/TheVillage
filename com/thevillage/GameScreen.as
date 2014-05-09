@@ -355,6 +355,7 @@
 					Building(item).allMaterialsComing = false;
 					Building(item).allMaterialsReady = false;
 					Building(item).underConstruction = true;
+					trace("set underConstruction: "+Building(item).underConstruction);
 					itemsContainer.setChildIndex(Building(item), 0);
 					
 					currBuildings.push(Building(item));
@@ -366,6 +367,8 @@
 					Building(item).rally_row += Building(item).row;
 					
 					Building(item).isPlaced = true;
+					
+					Building(item).drawItem();
 					
 					var idleMinion:Minion = getIdleMinion();
 					if(idleMinion != null)
