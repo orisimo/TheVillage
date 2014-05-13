@@ -28,7 +28,7 @@
 			row = _row;
 			
 			// rally point art
-			art = new TileSprite(TileTypes.TREE, true, true);
+			art = new TileSprite(TileTypes.TREE, 0);
 			addChild(art);
 			
 			art.art.gotoAndStop(art.art.totalFrames);

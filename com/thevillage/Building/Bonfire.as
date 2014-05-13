@@ -39,7 +39,7 @@
 			super.drawItem();
 			
 			// rally point art
-			var newSprite:TileSprite = new TileSprite(itemType, positionAvailable, true);
+			var newSprite:TileSprite = new TileSprite(itemType, 0);
 			addChild(newSprite);
 			
 			

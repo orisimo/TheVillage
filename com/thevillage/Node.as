@@ -31,7 +31,7 @@
 			this.row = r;
 			this.col = c;
 			
-			var newSprite:TileSprite  = new TileSprite(0, true);
+			var newSprite:TileSprite  = new TileSprite(0, 0);
 			addChild(newSprite);
 			
 			//this.highlight();

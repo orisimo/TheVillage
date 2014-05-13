@@ -316,7 +316,7 @@
 		{
 			var newSprite:TileSprite;
 			
-			newSprite = new TileSprite(itemType, positionAvailable);
+			newSprite = new TileSprite(itemType, 0);
 			
 			addChild(newSprite);
 		}

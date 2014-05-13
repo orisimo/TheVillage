@@ -15,15 +15,17 @@
 		public function Storage(type:int, grid:Array, id:int, _gameScreen:GameScreen) 
 		{
 			super(type, grid, id, _gameScreen);
+			// set rally point
+			rally_col = col + 1;
+			rally_row = row + 2;
 		}
 		
 		override public function initBuilding()
 		{
 			super.initBuilding();
 			
-			// set rally point
-			rally_col = col + 1;
-			rally_row = row + 2;
+			
+			trace("storage rally point: "+rally_col, rally_row);
 		}
 		
 		override public function update()

@@ -7,6 +7,7 @@
 	
 	import com.thevillage.*;
 	import com.thevillage.Building.*;
+	import flash.display.Sprite;
 	
 	public class CropField extends Building
 	{
@@ -28,10 +29,12 @@
 		
 		override public function initBuilding()
 		{
-			super.initBuilding();
-			
 			// init crops
+			buildingContent = new Array();
+			
 			initCrop(1, 0);
+			
+			super.initBuilding();
 			
 			// init resource
 			resource = 0;
@@ -46,7 +49,7 @@
 			var crop_row = row + add_row;
 			
 			crop = new Crop(this, crop_col, crop_row);
-			buildingContent.push(crop);
+			buildingContent.push(crop)
 		}
 		
 		override public function update()
@@ -105,6 +108,27 @@
 					}
 				}
 			}
+		}
+		
+		override public function drawItem()
+		{
+			super.drawItem();
+			
+			if(isPlaced && !underConstruction)
+			{
+				// Now put any extra art that is specific to this bulding (not rally)
+				for (var i:int = 0; i < buildingContent.length; i++)
+				{					
+					var newSprite:TileSprite = new TileSprite(TileTypes.CROP, 0);
+					newSprite.art.gotoAndStop(int(Math.random()*4+1));
+					newSprite.x = -x + buildingContent[i].col*GameData.TILE_SIZE;
+					newSprite.y = -y + buildingContent[i].row*GameData.TILE_SIZE;
+					addChild(newSprite);
+					spriteArray.push(newSprite);
+				}
+			}
+			
+			
 		}
 		
 		public function cropHarvested()

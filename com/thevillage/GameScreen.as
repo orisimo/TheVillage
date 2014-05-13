@@ -527,24 +527,6 @@
 			pickupMinion.update();
 		}
 		
-		private function drawObstacles()
-		{
-			for(var col:int = 0; col< GameData.GRID_WIDTH; col++)
-			{
-				for(var row:int = 0; row< GameData.GRID_WIDTH; row++)
-				{
-					if(tileMap.map[col+row*GameData.GRID_WIDTH] == 1)
-					{
-						var obstacle:TileSprite = new TileSprite(1, true);
-						obstacle.x = col*GameData.TILE_SIZE;
-						obstacle.y = row*GameData.TILE_SIZE;
-						
-						obstaclesContainer.addChild(obstacle);
-					}
-				}
-			}
-		}
-		
 		public function updateResources(resType:int, resAmount:int)
 		{
 			gameUI.updateResourcePanel(resType, resAmount);

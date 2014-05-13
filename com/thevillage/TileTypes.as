@@ -22,7 +22,7 @@
 		public static const MANOR_HOUSE:int = 1;
 		public static const CROP_FIELD:int = 2;
 		public static const STOREHOUSE:int = 3; 
-		public static const LUMBERMILL:int = 4; 
+		public static const LUMBERMILL:int = 4;
 		public static const STONECUTTER:int = 5;
 		public static const BLACKSMITH:int = 6;
 		public static const HUNTER:int = 7;
@@ -40,7 +40,9 @@
 		public static const TREE:int = 19;
 		public static const ANIMAL:int = 19;
 		public static const STONE:int = 20;
-		
+		public static const CROP:int = 21;
+		public static const CONSTRUCTION_SITE:int = 22;
+		public static const PEN:int = 23;
 		// Building Strings
 		
 		public static const MANOR_HOUSE_STR:String = "Manor House";

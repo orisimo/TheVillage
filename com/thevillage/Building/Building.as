@@ -11,6 +11,7 @@
 	import flash.utils.Timer;
 	import flash.events.TimerEvent;
 	import flash.events.MouseEvent;
+	import flash.geom.ColorTransform;
 	
 	
 	
@@ -155,9 +156,30 @@
 		override public function drawItem()
 		{
 			super.drawItem();
-			var newSprite:TileSprite = new TileSprite(itemType, positionAvailable, true, 0, underConstruction); // isPlaced should be used to indicate ghost mode
-			addChild(newSprite);
-			spriteArray.push(newSprite);
+			// isPlaced should be used to indicate ghost mode
+			if(underConstruction)
+			{
+				for(var i:int = 0; i<itemGrid.length; i++)
+				{
+					if(itemGrid[i] == 0)
+						continue;
+					var constructionArt:TileSprite = new TileSprite(TileTypes.CONSTRUCTION_SITE, 0);
+					constructionArt.x = i%Math.sqrt(itemGrid.length)*GameData.TILE_SIZE;
+					constructionArt.y =  Math.floor(i/Math.sqrt(itemGrid.length))*GameData.TILE_SIZE;
+					addChild(constructionArt);
+					spriteArray.push(constructionArt);
+				}
+			}
+			else
+			{
+				rallyArt = new TileSprite(itemType, 0); // isPlaced should be used to indicate ghost mode
+				addChild(rallyArt);
+				spriteArray.push(rallyArt);
+			}
+			if(!positionAvailable)
+			{
+				// color art red
+			}
 			
 			/*for(var ind:int = 0; ind < itemGrid.length ; ind++)
 			{
