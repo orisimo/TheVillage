@@ -51,6 +51,7 @@
 		public var resource:int;
 		public var resType:int;
 		public var resourceCap:int;
+		public var workersCap:int;
 		
 		public var gameScreen:GameScreen;
 		
@@ -74,6 +75,7 @@
 			constructionUnitsLeft = TileTypes.getConstUnitsByType(itemType);
 			
 			workers = [];
+			workersCap = TileTypes.getWorkerCapByType(itemType);
 			buildingContent = [];
 		}
 		
@@ -109,13 +111,19 @@
 		
 		public function constructionComplete()
 		{
-			for(var minInd:int = 0; minInd < workers.length; minInd++)
+			while(workers.length > workersCap)
 			{
-				workers[minInd].isWorking = false;
-				workers[minInd].buildingOrder = null;
+				workers[0].isWorking = false;
+				workers[0].buildingOrder = null;
+				workers.shift();
 			}
-			workers = [workers[0]] // get rid of all workers except the first
-			workers[0].isAssigned = true;
+			for(var ind:int = 0; ind < workersCap; ind++)
+			{
+				workers[ind].isWorking = false;
+				workers[ind].buildingOrder = null;
+				workers[ind].isAssigned = true;
+			}
+			trace("workers: "+workers);
 			initBuilding();
 		}
 		
@@ -196,8 +204,8 @@
 		
 		public function constructionMaterialsSupply(handsContent:Array)
 		{
-			trace("construction materials supply");
-			constructionMat[handsContent[0]] += handsContent[1];
+			trace("construction materials supply: before - "+constructionMat+" supplying: "+handsContent);
+			constructionMat[handsContent[0]-5] += handsContent[1];
 			var targetMat:Array = TileTypes.getConstructionMaterials(itemType);
 			//trace("constructionMat: "+constructionMat);
 			//trace("targetConstructionMat: "+TileTypes.getConstructionMaterials(itemType));

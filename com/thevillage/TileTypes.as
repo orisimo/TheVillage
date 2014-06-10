@@ -43,24 +43,25 @@
 		public static const CROP:int = 21;
 		public static const CONSTRUCTION_SITE:int = 22;
 		public static const PEN:int = 23;
+		public static const HOUSE:int = 24;
 		// Building Strings
 		
-		public static const MANOR_HOUSE_STR:String = "Manor House";
-		public static const CROP_FIELD_STR:String = "Crop Field";
-		public static const STOREHOUSE_STR:String = "Storehouse";
-		public static const LUMBERMILL_STR:String = "Lumbermill";
-		public static const QUARRY_STR:String = "Stonecutter";
-		public static const BLACKSMITH_STR:String = "Blacksmith";
-		public static const HUNTER_STR:String = "Hunter"; 
-		public static const FISHERMAN_STR:String = "Fisherman"; 
-		public static const HERDSMAN_STR:String = "Herdsman";
-		public static const INN_STR:String = "Inn";
-		public static const BONFIRE_STR:String = "Bonfire"; 
-		public static const WALL_STR:String = "Wall";
-		public static const ARCHER_TURRET_STR:String = "Archer Turret"; 
-		public static const GUARD_HOUSE_STR:String = "Guard House"; 
-		public static const SPIKED_HOLE_STR:String = "Spiked Hole"; 
-		public static const GATEHOUSE_STR:String = "Gatehouse"; 		
+		public static const MANOR_HOUSE_STR:String 		= "Manor House";
+		public static const CROP_FIELD_STR:String 		= "Crop Field";
+		public static const STOREHOUSE_STR:String 		= "Storehouse";
+		public static const LUMBERMILL_STR:String 		= "Lumbermill";
+		public static const QUARRY_STR:String 			= "Stonecutter";
+		public static const BLACKSMITH_STR:String		= "Blacksmith";
+		public static const HUNTER_STR:String 			= "Hunter"; 
+		public static const FISHERMAN_STR:String 		= "Fisherman"; 
+		public static const HERDSMAN_STR:String 		= "Herdsman";
+		public static const INN_STR:String 				= "Inn";
+		public static const BONFIRE_STR:String 			= "Bonfire"; 
+		public static const WALL_STR:String 			= "Wall";
+		public static const ARCHER_TURRET_STR:String 	= "Archer Turret"; 
+		public static const GUARD_HOUSE_STR:String 		= "Guard House"; 
+		public static const SPIKED_HOLE_STR:String 		= "Spiked Hole"; 
+		public static const GATEHOUSE_STR:String 		= "Gatehouse"; 		
 		
 		// Minions
 		
@@ -138,11 +139,27 @@
 				
 				// Minions
 				case VILLAGER:
-					return [1];
+					return [1];	
 					break;
 				
 				default:
 					return [1];
+					break;
+			}
+		}
+		
+		public static function getWorkerCapByType(itemType:int):int
+		{
+			// inputs building type and outputs building starter grid
+			switch(itemType)
+			{
+				// Buildings
+				
+				case CROP_FIELD:
+					return 1;
+					break;
+				default:
+					return 0;
 					break;
 			}
 		}
@@ -207,6 +224,9 @@
 					break;
 				case FISHING_CHAIR:
 					return [80,0,0]; 
+					break;
+				case HOUSE:
+					return [10,0,0]; 
 					break;
 				default:
 					return [80,0,0];
@@ -361,7 +381,7 @@
 				case TileTypes.RESOURCE_MEAT:
 					return("meat");
 					break;
-				case TileTypes.RESOURCE_MEAT:
+				case TileTypes.RESOURCE_FOOD:
 					return("food");
 					break;
 				default:

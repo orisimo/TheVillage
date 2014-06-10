@@ -16,6 +16,8 @@
 		public var targetPosition:Object;
 		public var distributionOrder:Building;
 		public var buildingOrder:Building;
+		public var storageOrder:Boolean;
+		
 		
 		public var handsContent:Array;
 		public var isWorking:Boolean;
@@ -38,6 +40,7 @@
 			isMoving = false;
 			isWorking = false;
 			isAssigned = false;
+			storageOrder = false;
 			
 			tileMap = _tileMap;
 			gameScreen = _gameScreen;
@@ -74,16 +77,17 @@
 		{
 			super.update();
 			
-			trace("minion update");
+			//trace("minion update");
+			//trace("ghostMode: "+String(ghostMode));
 			//trace("targetPosition: "+targetPosition);
 			if(isMoving)
 			{
-				trace("isMoving");
+				//trace("isMoving");
 				// do nothing
 			}
 			else if(targetPosition)
 			{
-				trace("targetPosition");
+				//trace("targetPosition");
 				// build a path
 				if(!path)
 				{
@@ -100,6 +104,8 @@
 				if(path==null)
 				{
 					trace("path from "+String(col)+" "+ String(row) +" to "+String(targetPosition.col)+" "+ String(targetPosition.row)+" is blocked");
+					targetPosition = null;
+					update();
 				}
 				else if(path.length <= 1) // arrived
 				{
@@ -125,28 +131,46 @@
 					
 					col = path[1].col;
 					row = path[1].row;
+					
+					if(path != null)
+					{
+						path.shift();
+					}
 				}
-				if(path != null)
+			}
+			else if(storageOrder)
+			{
+				if(col == gameScreen.storehouse.rally_col && row == gameScreen.storehouse.rally_row)
 				{
-					path.shift();
+					gameScreen.storageManager.pickupReservation(this);
+					isMoving = false;
+					targetPosition = {col: buildingOrder.rally_col, row: buildingOrder.rally_row};
+					update();
+				}
+				else
+				{
+					//trace("i need to get back to the storage!");
+					targetPosition = {col: gameScreen.storehouse.rally_col, row: gameScreen.storehouse.rally_row};
+					storageOrder = false;
+					update();
 				}
 			}
 			else if(buildingOrder) // buildingOrder holds a Building object (the target building) and will give us access to some variables from the building
 			{
 				buildingOrder.pushMinion(this);
 				
-				trace("minion building order")
-				trace("handsContent: "+handsContent)
+				//trace("minion building order")
+				//trace("handsContent: "+handsContent)
 				if(isWorking) // currently mining resources for constructions. don't interrupt
 				{
 					
 				}
 				if(handsContent)
 				{
-					trace("i gots something in me hands!");
+					//trace("i gots something in me hands!");
 					if(col == buildingOrder.rally_col && row == buildingOrder.rally_row)
 					{
-						trace("i'm in the friggin construction lot");
+						//trace("i'm in the friggin construction lot");
 						buildingOrder.constructionMaterialsSupply(handsContent);
 						handsContent = null;
 						isMoving = false;
@@ -154,7 +178,7 @@
 					}
 					else
 					{
-						trace("blimey! i need to get back to the construction lot!");
+						//trace("blimey! i need to get back to the construction lot!");
 						targetPosition = {col: buildingOrder.rally_col, row: buildingOrder.rally_row};
 						update();
 					}
@@ -182,6 +206,8 @@
 							{
 								buildingOrder.constructionQuota[conInd] -= GameData.MAX_HAND_CONTENT;
 								targetPosition = {col:  gameScreen.storehouse.rally_col, row:  gameScreen.storehouse.rally_row};
+								storageOrder = true;
+								trace("going to get mats from: "+targetPosition.col, targetPosition.row);
 								update();
 							}
 							else
@@ -236,10 +262,10 @@
 							}
 						}
 					}
-					trace("constructionQuota: "+buildingOrder.constructionQuota);
+					//trace("constructionQuota: "+buildingOrder.constructionQuota);
 					if(buildingOrder.constructionQuota[0] == 0 && buildingOrder.constructionQuota[1] == 0 && buildingOrder.constructionQuota[2] == 0)
 					{
-						trace("all materials coming");
+						//trace("all materials coming");
 						buildingOrder.allMaterialsComing = true;
 					}
 				}
@@ -261,30 +287,30 @@
 					else
 					{
 						// go to storehouse
-						trace("storehouse: "+gameScreen.storehouse);
-						trace("storehouse position: "+gameScreen.storehouse.rally_col, gameScreen.storehouse.rally_row);
+						//trace("storehouse: "+gameScreen.storehouse);
+						//trace("storehouse position: "+gameScreen.storehouse.rally_col, gameScreen.storehouse.rally_row);
 						targetPosition = {col:  gameScreen.storehouse.rally_col, row:  gameScreen.storehouse.rally_row};
 						update();
 					}
 				}
 				else
 				{
-					trace("hands empty");
+					//trace("hands empty");
 					if( distributionOrder.rally_col == col && distributionOrder.rally_row == row) // at building location
 					{
-						trace("arrived at pickup location");
+						//trace("arrived at pickup location");
 						// take merchandise from building
 						handsContent = [Math.min(distributionOrder.resource, GameData.MAX_HAND_CONTENT), distributionOrder.resType];
 						distributionOrder.resource = Math.max(0, distributionOrder.resource - GameData.MAX_HAND_CONTENT);
 						
 						// set destination to storehouse
-						trace("changing targetPosition to - col: "+gameScreen.storehouse.rally_col +" row: "+gameScreen.storehouse.rally_row);
+						//trace("changing targetPosition to - col: "+gameScreen.storehouse.rally_col +" row: "+gameScreen.storehouse.rally_row);
 						targetPosition = {col:  gameScreen.storehouse.rally_col, row:  gameScreen.storehouse.rally_row};
 						update();
 					}
 					else
 					{
-						trace("away from pickup location. heading there now");
+						//trace("away from pickup location. heading there now");
 						// set target position to building
 						targetPosition = {col: distributionOrder.rally_col, row: distributionOrder.rally_row};
 						update();

@@ -11,8 +11,6 @@
 		
 		public var reservations:Array;
 		
-		private var foodTimer:Timer;
-		
 		public function StorageManager(_gameScreen:GameScreen) 
 		{
 			gameScreen = _gameScreen;
@@ -20,29 +18,24 @@
 			reservations = [];
 			
 			maxResources = 300;
-			
-			foodTimer = new Timer(GameData.FOOD_TICK*1000, 0);
-			foodTimer.addEventListener(TimerEvent.TIMER, manageFood);
-			foodTimer.start();
 		}
 		
 		public function initResources()
 		{
 			resources = new Object();
-			resources.crops = 0;
+			resources.crops = 100;
 			resources.cheese = 0;
 			resources.fish = 0;
 			resources.meat = 0;
-			resources.wood = 0;
+			resources.wood = 100;
 			resources.stone = 0;
 			resources.metal = 0;
 			resources.food = 0;
-		}
-		
-		public function manageFood(e:TimerEvent)
-		{
-			trace("manage food!");
-			resourcePull(gameScreen.currMinions.length*GameData.VILLAGER_FOOD_COST, TileTypes.RESOURCE_FOOD);
+			
+			for(var ind:int = 1; ind <=8; ind++)
+			{
+				gameScreen.updateResources(ind, resources[TileTypes.resourceNameByType(ind)]);
+			}
 		}
 		
 		public function resourcePull(resAmount:int, resType:int):int // returns amount of available res
@@ -123,6 +116,7 @@
 				if( reservations[rsrv][2] == courier ) // found your order sir!
 				{
 					courier.handsContent = [reservations[rsrv][0], reservations[rsrv][1]]
+					trace("courier received: "+reservations[rsrv]);
 					reservations.splice(rsrv, 1);
 				}
 			}

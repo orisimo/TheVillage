@@ -58,6 +58,11 @@
 			
 			for(var ind:int = 0; ind < buildingContent.length ; ind++)
 			{
+				if(resource > 0)
+				{
+					gameScreen.pickupQuery(this);
+				}
+				
 				var crop:Crop = buildingContent[ind];
 				
 				if(crop.level < 6) // crop not ready
@@ -72,7 +77,10 @@
 				{
 					if(crop.worker.col == cache_col && crop.worker.row == cache_row && crop.worker.isIdle()) // the minion is ready in the cropfield location
 					{
-						crop.startWork();
+						if(this.resourceCap >= this.resource + GameData.MAX_HAND_CONTENT)
+						{
+							crop.startWork();
+						}
 					}
 					else if(!crop.worker.targetPosition) // the minion isn't on the way (and not in the cropfield location)
 					{
@@ -134,7 +142,6 @@
 		public function cropHarvested()
 		{
 			changeResourceAmount(GameData.CROP_AMOUNT);
-			gameScreen.pickupQuery(this)
 		}
 	}
 }

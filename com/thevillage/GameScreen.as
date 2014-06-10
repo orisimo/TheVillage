@@ -48,6 +48,8 @@
 		
 		public var storageManager:StorageManager;
 		
+		private var foodTimer:Timer;
+		
 		var gameUI:GameUI;
 		
 		public function GameScreen(game_ui:GameUI) 
@@ -113,25 +115,30 @@
 			keyboardController = new KeyboardController(this);
 			
 			// make some starter items (temp)
-			for(var num:int=0; num<0; num++)
+			var manorHouse:Item = createItem(TileTypes.MANOR_HOUSE, [10, 10]);
+			storehouse = Building(manorHouse);
+			trace("manor house col and row: "+storehouse.col, storehouse.row);
+			manorHouse.positionAvailable = true;
+			placeItem(manorHouse);
+			Building(manorHouse).initBuilding();
+			
+			foodTimer = new Timer(GameData.FOOD_TICK*1000, 0);
+			foodTimer.addEventListener(TimerEvent.TIMER, manageFood);
+			foodTimer.start();
+		}
+		
+		public function manageFood(e:TimerEvent)
+		{
+			var amountEaten:int = currMinions.length*GameData.VILLAGER_FOOD_COST
+			if(storageManager.resources.food < amountEaten)
 			{
-				//var tempType:int = Math.random() > 0.5 ? Math.ceil(Math.random()*16) : 101;
-				var tempType:int = 101;
-				var tempItem:Item = createItem(tempType, [Math.floor(Math.random()*GameData.GRID_WIDTH), Math.floor(Math.random()*GameData.GRID_HEIGHT)]);
-				//trace("itemType: "+tempItem.itemType);
-				if(tileMap.verifyPosition({row:tempItem.row, col:tempItem.col}, tempItem.itemGrid))
-				{
-					tempItem.positionAvailable = true;
-					//setRandomDestination(tempItem);
-					//trace("minion destination: "+Minion(tempItem).targetPosition.col, Minion(tempItem).targetPosition.row);
-					placeItem(tempItem);
-				}
-				else
-				{
-					itemsContainer.removeChild(tempItem);
-				}
-				
+				storageManager.resources.food = 0;
 			}
+			else
+			{
+				storageManager.resources.food -= amountEaten;
+			}
+			updateResources(TileTypes.RESOURCE_FOOD, storageManager.resources.food);
 		}
 		
 		public function materialsQueue(targetBuilding:Building, targetMinion:Minion) : Boolean
@@ -148,7 +155,7 @@
 		
 		private function onTick(e:TimerEvent)
 		{
-			//trace("tick "+gameTimer.currentCount);
+			trace("tick "+gameTimer.currentCount);
 		}
 		
 		private function addItemPlacer(e:GameEvent)
@@ -169,7 +176,7 @@
 			return dragTarget;
 		}
 		
-		private function createItem(itemType:int, position:Array, parent_building:Building = null):Item
+		public function createItem(itemType:int, position:Array, parent_building:Building = null):Item
 		{
 			
 			//trace("createItem");
@@ -178,7 +185,7 @@
 			switch (itemType)
 			{
 				case TileTypes.VILLAGER: // villager
-					myItem = new Minion(itemType, TileTypes.getItemGridByType(itemType), tileMap.getNewID(), tileMap, this);
+					myItem = new Minion(itemType,TileTypes.getItemGridByType(itemType), tileMap.getNewID(), tileMap, this);
 					break;
 					
 				case TileTypes.WALL:
@@ -232,6 +239,10 @@
 				case TileTypes.HUNTER:
 					myItem = new Hunter(itemType, TileTypes.getItemGridByType(itemType), tileMap.getNewID(), this, wildlife);
 					break;		
+				
+				case TileTypes.HOUSE:
+					myItem = new House(itemType, TileTypes.getItemGridByType(itemType), tileMap.getNewID(), this);
+					break;
 				
 				default:
 					break;
@@ -333,49 +344,49 @@
 			placeItem(dragTarget);
 		}
 		
-		private function placeItem(item:Item)
+		public function placeItem(item:Item)
 		{
-			if(item.positionAvailable)
+			trace("item type: "+item.itemType);
+			if(item.itemType == TileTypes.VILLAGER)
+			{
+				Minion(item).drawItem();
+				Minion(item).update();
+				itemsContainer.setChildIndex(Minion(item), itemsContainer.numChildren-1);
+				currMinions.push(Minion(item));
+				
+				Minion(item).initMinion();
+				dispatchEvent(new GameEvent(GameEvent.PLACE_ITEM_EVENT, item.itemType, true));
+			}
+			else if(item.positionAvailable)
 			{
 				
 				dragTarget = null;
 				
-				if(item.itemType == TileTypes.VILLAGER)
+				
+				tileMap.setNode(item, false); // set node(s) to non-traversable
+				Building(item).allMaterialsComing = false;
+				Building(item).allMaterialsReady = false;
+				Building(item).underConstruction = true;
+				trace("set underConstruction: "+Building(item).underConstruction);
+				itemsContainer.setChildIndex(Building(item), 0);
+				
+				currBuildings.push(Building(item));
+				
+				Building(item).cache_col += Building(item).col;
+				Building(item).cache_row += Building(item).row;
+				
+				Building(item).rally_col += Building(item).col;
+				Building(item).rally_row += Building(item).row;
+				
+				Building(item).isPlaced = true;
+				
+				Building(item).drawItem();
+				
+				var idleMinion:Minion = getIdleMinion();
+				if(idleMinion != null)
 				{
-					Minion(item).drawItem();
-					Minion(item).update();
-					itemsContainer.setChildIndex(Minion(item), itemsContainer.numChildren-1);
-					currMinions.push(Minion(item));
-					
-					Minion(item).initMinion();
-				}
-				else // building
-				{
-					tileMap.setNode(item, false); // set node(s) to non-traversable
-					Building(item).allMaterialsComing = false;
-					Building(item).allMaterialsReady = false;
-					Building(item).underConstruction = true;
-					trace("set underConstruction: "+Building(item).underConstruction);
-					itemsContainer.setChildIndex(Building(item), 0);
-					
-					currBuildings.push(Building(item));
-					
-					Building(item).cache_col += Building(item).col;
-					Building(item).cache_row += Building(item).row;
-					
-					Building(item).rally_col += Building(item).col;
-					Building(item).rally_row += Building(item).row;
-					
-					Building(item).isPlaced = true;
-					
-					Building(item).drawItem();
-					
-					var idleMinion:Minion = getIdleMinion();
-					if(idleMinion != null)
-					{
-						idleMinion.buildingOrder = Building(item);
-						idleMinion.update();
-					}
+					idleMinion.buildingOrder = Building(item);
+					idleMinion.update();
 				}
 				
 				switch (item.itemType)

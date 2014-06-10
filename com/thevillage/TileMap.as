@@ -107,7 +107,7 @@
 		
 		public function setNode(item:MovieClip, clearNode:Boolean = false)
 		{
-			//trace("item.col: "+item.col, "item.row: "+item.row);
+			trace("item.col: "+item.col, "item.row: "+item.row);
 			for(var col:int = item.col; col< Math.min(item.col+Math.sqrt(item.itemGrid.length), GameData.GRID_WIDTH); col++)
 			{
 				for(var row:int = item.row; row< Math.min(item.row+Math.sqrt(item.itemGrid.length), GameData.GRID_HEIGHT); row++)

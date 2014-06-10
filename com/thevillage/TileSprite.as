@@ -72,6 +72,9 @@
 				case TileTypes.CONSTRUCTION_SITE:
 					art = new ConstructionSite() as MovieClip;				
 					break;
+				case TileTypes.HOUSE:
+					art = new ArtCropFieldRally() as MovieClip;				
+					break;
 				default:
 					break;
 				

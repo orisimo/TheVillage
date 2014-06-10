@@ -27,7 +27,7 @@
 			
 			// set rally point
 			rally_col = col + 0;
-			rally_row = row + 1;
+			rally_row = row + 2;
 			
 			cache_col = col + 0;
 			cache_row = row + 0;

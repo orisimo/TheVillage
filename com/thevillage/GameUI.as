@@ -65,7 +65,7 @@
 			buildBtnTypes = [TileTypes.MANOR_HOUSE, TileTypes.CROP_FIELD, TileTypes.STOREHOUSE, TileTypes.LUMBERMILL,
 							 TileTypes.STONECUTTER, TileTypes.BLACKSMITH, TileTypes.HUNTER, TileTypes.FISHERMAN,
 							 TileTypes.PASTURE, TileTypes.INN, TileTypes.BONFIRE, TileTypes.WALL,
-							 TileTypes.ARCHER_TURRET, TileTypes.GUARD_HOUSE, TileTypes.SPIKED_HOLE, TileTypes.GATEHOUSE];
+							 TileTypes.ARCHER_TURRET, TileTypes.GUARD_HOUSE, TileTypes.SPIKED_HOLE, TileTypes.GATEHOUSE, TileTypes.HOUSE];
 			
 			buildBtn.addEventListener(MouseEvent.CLICK, toggleBuildMenu);
 			buildBtnOpen = false;
@@ -145,16 +145,16 @@
 			switch(e.currentTarget.name)
 			{
 				case "wheat_btn":
-					gameScreen.storageManager.addFood(TileTypes.RESOURCE_WHEAT);
+					gameScreen.storageManager.addFood(TileTypes.RESOURCE_WHEAT), TileTypes.RESOURCE_FOOD;
 					break;
 				case "cheese_btn":
-					gameScreen.storageManager.addFood(TileTypes.RESOURCE_CHEESE);
+					gameScreen.storageManager.addFood(TileTypes.RESOURCE_CHEESE), TileTypes.RESOURCE_FOOD;
 					break;
 				case "fish_btn":
-					gameScreen.storageManager.addFood(TileTypes.RESOURCE_FISH);
+					gameScreen.storageManager.addFood(TileTypes.RESOURCE_FISH), TileTypes.RESOURCE_FOOD;
 					break;
 				case "meat_btn":
-					gameScreen.storageManager.addFood(TileTypes.RESOURCE_MEAT);
+					gameScreen.storageManager.addFood(TileTypes.RESOURCE_MEAT), TileTypes.RESOURCE_FOOD;
 					break;
 				default:
 					break
@@ -163,7 +163,6 @@
 		
 		public function updateResourcePanel(resourceType:int, resourceAmount:int)
 		{
-			trace("update res panel - "+String(resourceAmount));
 			switch (resourceType)
 			{
 				case TileTypes.RESOURCE_WHEAT:
